@@ -39,6 +39,7 @@
         ..\**\*.nupkg;
         ..\docs\**;
         ..\template-pack\**;
+        ..\安装模板.bat;
         ..\README.md;
         ..\feature_list.json;
         ..\progress.md;

@@ -69,6 +69,9 @@ dotnet new crossweb -n MyProduct
 dotnet new uninstall .
 ```
 
+Windows 也可以直接双击根目录的 [`安装模板.bat`](./安装模板.bat)。该命令使用
+脚本所在目录安装模板，并在成功后提示 `dotnet new crossweb` 创建命令。
+
 生成可搬运的 NuGet 模板包：
 
 ```powershell
