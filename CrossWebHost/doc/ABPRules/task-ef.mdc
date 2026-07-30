@@ -1,0 +1,22 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# ef框架
+
+如果用户没有特别指定，那么不需要进行数据库迁移。代码中已经包含自动迁移功能
+
+## 数据库迁移
+
+- 查询迁移
+
+```bash
+dotnet ef migrations list --project .\src\abp\CrossWebHost.EntityFramework\CrossWebHost.EntityFramework.csproj --startup-project .\src\CrossWebHost\CrossWebHost.csproj
+```
+
+- 新增迁移
+```bash
+dotnet ef migrations add <最后一个迁移版本加1> --project .\src\abp\CrossWebHost.EntityFramework\CrossWebHost.EntityFramework.csproj --startup-project .\src\CrossWebHost\CrossWebHost.csproj
+```

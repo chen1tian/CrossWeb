@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>CrossWebHost.Application.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>CrossWebHost.Application.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" />
+		<PackageReference Include="Microsoft.AspNet.WebApi.Core" />
+		<PackageReference Include="Scriban" />
+		<PackageReference Include="Volo.Abp.Http.Client" />
+		<PackageReference Include="Volo.Abp.SettingManagement.Application" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\CrossWebHost.Application.Contracts\CrossWebHost.Application.Contracts.csproj" />
+		<ProjectReference Include="..\CrossWebHost.Domain\CrossWebHost.Domain.csproj" />
+		<ProjectReference Include="..\CrossWebHost.EntityFramework\CrossWebHost.EntityFramework.csproj" />
+	</ItemGroup>
+
+</Project>

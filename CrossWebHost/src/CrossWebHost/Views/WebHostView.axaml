@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:CrossWebHost.ViewModels"
+             xmlns:web="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.WebView"
+             mc:Ignorable="d"
+             d:DesignWidth="1100"
+             d:DesignHeight="720"
+             x:Class="CrossWebHost.Views.WebHostView"
+             x:DataType="vm:WebHostViewModel">
+  <Grid Background="#0B0D10">
+    <web:NativeWebView x:Name="WebView"
+                       Source="{Binding WebFrontendUrl}"
+                       IsVisible="{Binding IsWebViewVisible}"
+                       Background="#0B0D10" />
+
+    <Border IsVisible="{Binding IsLoadingVisible}"
+            Background="#0B0D10">
+      <StackPanel Width="360"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Spacing="14">
+        <TextBlock Text="CrossWeb"
+                   HorizontalAlignment="Center"
+                   FontSize="28"
+                   FontWeight="SemiBold"
+                   Foreground="#F8FAFC" />
+        <ProgressBar Width="160"
+                     Height="3"
+                     IsIndeterminate="True"
+                     IsVisible="{Binding !HasInitializationError}"
+                     Foreground="#38BDF8"
+                     Background="#20242B" />
+        <TextBlock Text="{Binding StatusText}"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap"
+                   FontSize="13"
+                   Foreground="#94A3B8" />
+      </StackPanel>
+    </Border>
+  </Grid>
+</UserControl>

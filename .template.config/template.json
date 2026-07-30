@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json.schemastore.org/template",
+  "author": "CrossWeb contributors",
+  "classifications": [
+    "Avalonia",
+    "React",
+    "TypeScript",
+    "PicoServer",
+    "Desktop"
+  ],
+  "identity": "CrossWeb.Templates.Project",
+  "groupIdentity": "CrossWeb.Templates",
+  "name": "CrossWeb 跨平台 Web 融合应用",
+  "shortName": "crossweb",
+  "sourceName": "CrossWeb",
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "symbols": {
+    "lowerName": {
+      "type": "generated",
+      "generator": "casing",
+      "parameters": {
+        "source": "name",
+        "toLower": true
+      },
+      "replaces": "crossweb",
+      "fileRename": "crossweb"
+    },
+    "upperName": {
+      "type": "generated",
+      "generator": "casing",
+      "parameters": {
+        "source": "name",
+        "toLower": false
+      },
+      "replaces": "CROSSWEB",
+      "fileRename": "CROSSWEB"
+    }
+  },
+  "sources": [
+    {
+      "source": "./",
+      "target": "./",
+      "exclude": [
+        ".git/**",
+        ".vs/**",
+        "**/.vs/**",
+        ".template.config/**",
+        ".template-content/**",
+        "**/[Bb]in/**",
+        "**/[Oo]bj/**",
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/artifacts/**",
+        "**/Assets/Web/**",
+        "**/Logs/**",
+        "**/*.log",
+        "**/*.nupkg",
+        "docs/**",
+        "template-pack/**",
+        "README.md",
+        "feature_list.json",
+        "progress.md",
+        "session-handoff.md"
+      ]
+    },
+    {
+      "source": ".template-content/",
+      "target": "./"
+    }
+  ]
+}

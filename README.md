@@ -1,9 +1,9 @@
-# 跨平台应用
+# CrossWeb
 
 ## 说明
 这是一个新建的跨平台项目，技术架构如下：
-1. 前端：`Frontend/` 下的 Vite + React + TypeScript 项目
-2. 后端（Host）：跨平台Avalonia项目
+1. 前端：`CrossWebFrontend/` 下的 Vite + React + TypeScript 项目
+2. 后端（CrossWebHost）：跨平台Avalonia项目
 
 后端Host使用WebView承载前端的网页，使用PicoServer作为本地Web服务器，前端React项目通过PicoServer访问后端Host提供的API接口。
 PicoServer(https://picoserver.cn/guide.html)
@@ -11,7 +11,7 @@ PcoServer 实时通讯 文档: https://picoserver.cn/realtime.html
 
 ## 前端开发
 
-前端使用 Node.js、npm、Vite、React 和 TypeScript。在 `Frontend/` 目录运行：
+前端使用 Node.js、npm、Vite、React 和 TypeScript。在 `CrossWebFrontend/` 目录运行：
 
 ```bash
 npm ci
@@ -22,8 +22,8 @@ npm run build
 npm run build:host
 ```
 
-详细说明参见 [`Frontend/README.md`](./Frontend/README.md)。根目录的
-`init.ps1` 或 `init.sh` 会同时验证 Host 和前端。
+详细说明参见 [`CrossWebFrontend/README.md`](./CrossWebFrontend/README.md)。根目录的
+`init.ps1` 或 `init.sh` 会同时验证 CrossWebHost 和前端。
 
 ## 构建与运行
 
@@ -31,16 +31,16 @@ npm run build:host
 
 ```powershell
 .\init.ps1
-.\Host\src\Host.Desktop\bin\Debug\net10.0\Host.Desktop.exe
+.\CrossWebHost\src\CrossWebHost.Desktop\bin\Debug\net10.0\CrossWebHost.Desktop.exe
 ```
 
-启动时需要允许 Windows UAC 提升。Host 启动 PicoServer、解包内嵌的 React
+启动时需要允许 Windows UAC 提升。CrossWebHost 启动 PicoServer、解包内嵌的 React
 生产资源，通过健康检查后再让 Avalonia WebView 导航到本地页面。界面底部会
 显示当前可访问的回环和局域网 URL。
 
 ## 本地 API
 
-Host 通过 PicoServer 监听 `http://+:8090/`，本机客户端可通过
+CrossWebHost 通过 PicoServer 监听 `http://+:8090/`，本机客户端可通过
 `http://127.0.0.1:8090` 访问 API。
 
 ```text
@@ -48,8 +48,8 @@ GET http://127.0.0.1:8090/api/ping
 → pong
 ```
 
-在 WebView 页面中点击“发送 ping”，`Host API` 状态应变为 `pong`。也可以在
-Host 运行时执行：
+在 WebView 页面中点击“发送 ping”，`CrossWebHost API` 状态应变为 `pong`。也可以在
+CrossWebHost 运行时执行：
 
 ```powershell
 Invoke-WebRequest http://127.0.0.1:8090/api/ping
@@ -57,7 +57,41 @@ Invoke-RestMethod http://127.0.0.1:8090/api/host/urls
 ```
 
 生命周期、端口策略和验证方式参见
-[`Host/doc/PicoServer.md`](./Host/doc/PicoServer.md)。
+[`CrossWebHost/doc/PicoServer.md`](./CrossWebHost/doc/PicoServer.md)。
+
+## 项目模板
+
+从源码目录安装并创建项目：
+
+```powershell
+dotnet new install .
+dotnet new crossweb -n MyProduct
+dotnet new uninstall .
+```
+
+生成可搬运的 NuGet 模板包：
+
+```powershell
+dotnet pack .\template-pack\CrossWeb.Templates.csproj `
+  -c Release `
+  -o .\CrossWebHost\artifacts\packages
+```
+
+从模板包安装、创建、验证和卸载：
+
+```powershell
+dotnet new install `
+  .\CrossWebHost\artifacts\packages\CrossWeb.Templates.0.1.0.nupkg
+dotnet new crossweb -n MyProduct
+Set-Location .\MyProduct
+.\init.ps1
+Set-Location ..
+dotnet new uninstall CrossWeb.Templates
+```
+
+模板默认创建 `MyProductHost/` 与 `MyProductFrontend/`，并包含中文 README、
+初始化脚本以及干净的初始 harness 状态。打包输出位于已忽略的 `artifacts/`
+目录，不提交 Git。
 
 ## 需求
 
@@ -76,8 +110,20 @@ Invoke-RestMethod http://127.0.0.1:8090/api/host/urls
    3. 一次请求交互：ping，pong，前端发送ping请求，后端返回pong响应
 
 ### 第二阶段
-1. 修改名称：修改根目录名称为：CrossWeb，修改后端为 CrossWebHost，前端为 CrossWebFrontend。
-2. 将此项目转换为.net模板，方便以此为基础创建新的跨平台Web融合项目。   
+
+状态：已完成。实施过程、验证证据、关键决策和遗留风险见
+[`docs/phases/phase2/README.md`](./docs/phases/phase2/README.md)。
+
+1. 将原型重命名为 CrossWeb：
+   1. 仓库外层目录：`CrossWeb`
+   2. 后端：`CrossWebHost`
+   3. 前端：`CrossWebFrontend`
+2. 将 CrossWeb 转换为可通过 `dotnet new` 安装和实例化的 .NET 项目模板。
+3. 使用不同项目名生成独立实例，并验证构建、WebView、可访问 URL 和
+   ping/pong。
+4. 提供可安装的 NuGet 模板包和中文使用文档。
+
 参考：
-   - https://learn.microsoft.com/en-us/dotnet/core/tools/custom-templates
-   - https://learn.microsoft.com/en-us/dotnet/core/tutorials/cli-templates-create-project-template
+
+- https://learn.microsoft.com/en-us/dotnet/core/tools/custom-templates
+- https://learn.microsoft.com/en-us/dotnet/core/tutorials/cli-templates-create-project-template

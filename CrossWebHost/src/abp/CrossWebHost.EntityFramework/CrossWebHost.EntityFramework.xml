@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CrossWebHost.EntityFramework</name>
+    </assembly>
+    <members>
+        <member name="P:CrossWebHost.EntityFramework.CrossWebHostDbContext.AbpSettings">
+            <summary>
+            App设置
+            </summary>
+        </member>
+        <member name="P:CrossWebHost.EntityFramework.CrossWebHostDbContext.AbpSettingDefinitions">
+            <summary>
+            App设置定义
+            </summary>
+        </member>
+        <member name="M:CrossWebHost.EntityFramework.MiddleWares.EfMigrateMiddleWare.UseAutoMigration(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            自动迁移数据库
+            </summary>
+            <param name="app"></param>
+            <param name="db"></param>
+        </member>
+        <member name="M:CrossWebHost.EntityFramework.MiddleWares.EfMigrateMiddleWare.UseAutoMigration``1(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            自动迁移数据库
+            </summary>
+            <typeparam name="TDbContext"></typeparam>
+            <param name="app"></param>
+        </member>
+        <member name="M:CrossWebHost.EntityFramework.MiddleWares.EfMigrateMiddleWare.UseAutoMigration``1(System.IServiceProvider)">
+            <summary>
+            自动迁移数据库
+            </summary>
+            <typeparam name="TDbContext"></typeparam>
+            <param name="servicesProvider"></param>
+        </member>
+        <member name="T:CrossWebHost.EntityFramework.Migrations.Init">
+            <inheritdoc />
+        </member>
+        <member name="M:CrossWebHost.EntityFramework.Migrations.Init.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CrossWebHost.EntityFramework.Migrations.Init.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CrossWebHost.EntityFramework.Migrations.Init.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

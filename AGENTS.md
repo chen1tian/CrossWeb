@@ -1,13 +1,13 @@
-# AvWeb 智能体指南
+# CrossWeb 智能体指南
 
 本仓库用于构建 `README.md` 描述的跨平台应用。产品分为三个层次：
 
-- React Web UI：位于 `Frontend/` 的 Vite + React + TypeScript 项目。
+- React Web UI：位于 `CrossWebFrontend/` 的 Vite + React + TypeScript 项目。
 - Avalonia 宿主外壳：通过 WebView 加载 Web UI。
 - PicoServer/ABP 服务：向 Web UI 提供本地 API。
 
-`README.md` 是产品范围的权威来源。修改 `Host/` 下的内容时，还必须遵守
-`Host/AGENTS.md` 中的文件放置和框架规则。
+`README.md` 是产品范围的权威来源。修改 `CrossWebHost/` 下的内容时，还必须遵守
+`CrossWebHost/AGENTS.md` 中的文件放置和框架规则。
 
 ## 工作语言
 
@@ -25,7 +25,7 @@
 2. 阅读 `README.md`、本文件、`feature_list.json` 和 `progress.md`。
 3. 接续之前的工作时，阅读 `session-handoff.md`。
 4. 只有需要追溯已结束阶段时，才沿状态文件中的路径阅读 `docs/phases/` 归档。
-5. 修改 `Host/` 前，阅读 `Host/AGENTS.md` 及其中链接的相关文档。
+5. 修改 `CrossWebHost/` 前，阅读 `CrossWebHost/AGENTS.md` 及其中链接的相关文档。
 6. Windows 运行 `.\init.ps1`，POSIX shell 运行 `./init.sh`。
 7. 只选择一个依赖已经完成的未完成任务。
 
@@ -84,13 +84,13 @@
 ./init.sh
 ```
 
-当前基线会构建 Desktop Host 并验证前端：
+当前基线会构建 Desktop CrossWebHost 并验证前端：
 
 ```text
-dotnet build Host/src/Host.Desktop/Host.Desktop.csproj --nologo
-npm --prefix Frontend ci
-npm --prefix Frontend run lint
-npm --prefix Frontend run build:host
+dotnet build CrossWebHost/src/CrossWebHost.Desktop/CrossWebHost.Desktop.csproj --nologo
+npm --prefix CrossWebFrontend ci
+npm --prefix CrossWebFrontend run lint
+npm --prefix CrossWebFrontend run build:host
 ```
 
 ## 阶段归档规则

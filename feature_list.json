@@ -1,7 +1,9 @@
 {
-  "project": "AvWeb 第一阶段 MVP",
+  "project": "CrossWeb 第二阶段",
   "source": "README.md",
-  "archive": "docs/phases/phase1/README.md",
+  "plan": "docs/phases/phase2/plan.md",
+  "archive": "docs/phases/phase2/README.md",
+  "previous_archive": "docs/phases/phase1/README.md",
   "status_values": [
     "not-started",
     "in-progress",
@@ -10,111 +12,108 @@
   ],
   "milestone_gates": [
     {
-      "id": "phase1-commit",
-      "description": "第一阶段 MVP 全部完成并验证通过后，创建一个 Git 里程碑提交。",
+      "id": "phase2-commit",
+      "description": "第二阶段全部任务完成并通过模板实例端到端验收后，创建一个 Git 里程碑提交。",
       "required_features": [
-        "phase1-001",
-        "phase1-002",
-        "phase1-003",
-        "phase1-004",
-        "phase1-005"
+        "phase2-001",
+        "phase2-002",
+        "phase2-003",
+        "phase2-004",
+        "phase2-005"
       ],
-      "verification": ".\\init.ps1",
-      "commit_message": "完成第一阶段 MVP",
-      "status": "done"
+      "verification": ".\\init.ps1，并完成模板安装、实例化、生成项目构建和运行验收",
+      "commit_message": "完成第二阶段 .NET 模板",
+      "status": "done",
+      "archive": "docs/phases/phase2/README.md"
     }
   ],
   "features": [
     {
-      "id": "phase1-001",
-      "name": "创建 React 前端",
-      "description": "创建由本地服务托管并在 Avalonia 宿主中显示的 React 应用。",
+      "id": "phase2-001",
+      "name": "完成 CrossWeb 原型重命名",
+      "description": "原子化地把 AvWeb、Host 和 Frontend 重命名为 CrossWeb、CrossWebHost 和 CrossWebFrontend。",
       "dependencies": [],
       "status": "done",
       "completion_criteria": [
-        "前端目录和 package.json 已存在。",
-        "已记录选用的包管理器和开发命令。",
-        "前端生产构建成功。",
-        "init.ps1 和 init.sh 已包含前端验证命令。"
+        "Host 和 Frontend 目录已分别改为 CrossWebHost 和 CrossWebFrontend。",
+        "解决方案、项目、命名空间、XAML、Avalonia 资源、ABP 资源和项目引用均使用一致的新名称。",
+        "前端包名、页面标题、WebView 消息协议和 Host 资源清单使用 CrossWeb 标识。",
+        "初始化脚本、忽略规则、AGENTS 和当前技术文档使用新路径。",
+        "除第一阶段历史归档外，不残留应替换的 AvWeb 产品标识或旧目录路径。",
+        ".\\init.ps1 通过，Desktop Host、WebView、URL 列表和 ping/pong 验收通过。"
       ],
-      "evidence": [
-        "详细过程与验证证据：docs/phases/phase1/verification.md"
-      ]
+      "archive": "docs/phases/phase2/README.md"
     },
     {
-      "id": "phase1-002",
-      "name": "为 Host 集成 PicoServer",
-      "description": "把 PicoServer 集成到 Host，并提供 Web UI 所需的本地 API。",
+      "id": "phase2-002",
+      "name": "建立 .NET 项目模板",
+      "description": "为可运行的 CrossWeb 原型增加可由 dotnet new 安装和实例化的模板配置。",
       "dependencies": [
-        "phase1-001"
+        "phase2-001"
       ],
       "status": "done",
       "completion_criteria": [
-        "Host 能够随应用生命周期启动和停止 PicoServer。",
-        "已记录本地服务地址和端口策略。",
-        "后端 ping 端点或处理程序能够返回 pong。",
-        "相关 Host 构建或自动化检查通过。"
+        ".template.config/template.json 已定义 crossweb、CrossWeb 和 preferNameDirectory。",
+        "模板能够处理产品名称的不同大小写形式和文件名替换。",
+        "模板排除版本库元数据、构建产物、依赖目录、日志和临时验证产物。",
+        "生成项目不包含阶段归档、当前阶段状态或源仓库开发历史。",
+        "生成项目包含干净的使用文档、初始化脚本和初始 harness 状态。",
+        "从本地目录安装模板并执行 dotnet new crossweb 成功。"
       ],
-      "evidence": [
-        "详细过程与验证证据：docs/phases/phase1/verification.md"
-      ]
+      "archive": "docs/phases/phase2/README.md"
     },
     {
-      "id": "phase1-003",
-      "name": "在 Avalonia WebView 中显示 React UI",
-      "description": "调整原生宿主，使其在 WebView 中加载本地托管的 React 应用。",
+      "id": "phase2-003",
+      "name": "验证模板生成实例",
+      "description": "使用不同名称生成独立项目，并验证名称替换、构建和运行行为。",
       "dependencies": [
-        "phase1-001",
-        "phase1-002"
+        "phase2-002"
       ],
       "status": "done",
       "completion_criteria": [
-        "Desktop Host 能够在 WebView 中显示 React 应用。",
-        "启动顺序能够防止 WebView 在 PicoServer 就绪前加载。",
-        "加载失败时能够显示或记录错误。",
-        "Desktop Host 构建成功。"
+        "dotnet new crossweb -n SampleFusion 能生成 SampleFusionHost 和 SampleFusionFrontend。",
+        "解决方案、项目、命名空间、npm 包名、消息协议和资源路径均完成名称替换。",
+        "生成项目不包含源仓库阶段历史或构建产物。",
+        "生成项目中的 .\\init.ps1 验证通过。",
+        "生成项目的 Desktop Host、WebView、URL 列表和 ping/pong 验收通过。",
+        "测试模板已卸载，临时目录已清理。"
       ],
-      "evidence": [
-        "详细过程与验证证据：docs/phases/phase1/verification.md"
-      ]
+      "archive": "docs/phases/phase2/README.md"
     },
     {
-      "id": "phase1-004",
-      "name": "完成 ping/pong 集成",
-      "description": "实现并验证 React UI 通过 PicoServer 与 Host 完成一次端到端请求。",
+      "id": "phase2-004",
+      "name": "提供模板包和使用文档",
+      "description": "把 CrossWeb 模板打包为可搬运的 NuGet 模板包，并记录使用方式。",
       "dependencies": [
-        "phase1-002",
-        "phase1-003"
+        "phase2-003"
       ],
       "status": "done",
       "completion_criteria": [
-        "React UI 能够发送 ping。",
-        "Host 能够通过 PicoServer 返回 pong。",
-        "React UI 能够显示 pong 响应。",
-        "该交互能够在 Avalonia WebView 内运行。",
-        "验证证据已归档到 docs/phases/phase1/verification.md。"
+        "模板包项目定义 PackageType、PackageId、版本和说明。",
+        "dotnet pack 成功生成内容结构正确的 .nupkg。",
+        "可以从 .nupkg 安装模板并生成自定义名称项目。",
+        "README 已记录安装、创建、验证和卸载命令。",
+        ".nupkg 和打包输出未提交到 Git。"
       ],
-      "evidence": [
-        "详细过程与验证证据：docs/phases/phase1/verification.md"
-      ]
+      "archive": "docs/phases/phase2/README.md"
     },
     {
-      "id": "phase1-005",
-      "name": "关闭第一阶段 MVP",
-      "description": "让完成后的 MVP 能够被下一位开发者或下一次智能体会话稳定复现。",
+      "id": "phase2-005",
+      "name": "关闭第二阶段",
+      "description": "完成原型和模板实例的最终验收、阶段归档与里程碑提交。",
       "dependencies": [
-        "phase1-004"
+        "phase2-004"
       ],
       "status": "done",
       "completion_criteria": [
-        "两个初始化脚本均能验证所有可用的前端和 Host 检查。",
-        "README.md 已记录安装、运行和 ping/pong 验证步骤。",
-        "第一阶段所有先前任务均包含完成证据。",
-        "progress.md 和 session-handoff.md 中不存在未解决的 MVP 阻塞项。"
+        "CrossWeb 原型运行 .\\init.ps1 通过。",
+        "从模板包生成的自定义名称项目完成构建和端到端运行验收。",
+        "README 已标记第二阶段完成。",
+        "第二阶段资料已归档到 docs/phases/phase2/，进行中文件已精简。",
+        "第二阶段里程碑提交已创建。",
+        "里程碑提交后，本地仓库外层目录已在安全时机改为 CrossWeb。"
       ],
-      "evidence": [
-        "第一阶段归档：docs/phases/phase1/README.md"
-      ]
+      "archive": "docs/phases/phase2/README.md"
     }
   ]
 }
