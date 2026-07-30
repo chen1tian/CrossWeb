@@ -19,10 +19,24 @@ npm run dev
 npm run lint
 npm run typecheck
 npm run build
+npm run build:host
 ```
 
 详细说明参见 [`Frontend/README.md`](./Frontend/README.md)。根目录的
 `init.ps1` 或 `init.sh` 会同时验证 Host 和前端。
+
+## 构建与运行
+
+在 Windows 仓库根目录执行：
+
+```powershell
+.\init.ps1
+.\Host\src\Host.Desktop\bin\Debug\net10.0\Host.Desktop.exe
+```
+
+启动时需要允许 Windows UAC 提升。Host 启动 PicoServer、解包内嵌的 React
+生产资源，通过健康检查后再让 Avalonia WebView 导航到本地页面。界面底部会
+显示当前可访问的回环和局域网 URL。
 
 ## 本地 API
 
@@ -32,6 +46,14 @@ Host 通过 PicoServer 监听 `http://+:8090/`，本机客户端可通过
 ```text
 GET http://127.0.0.1:8090/api/ping
 → pong
+```
+
+在 WebView 页面中点击“发送 ping”，`Host API` 状态应变为 `pong`。也可以在
+Host 运行时执行：
+
+```powershell
+Invoke-WebRequest http://127.0.0.1:8090/api/ping
+Invoke-RestMethod http://127.0.0.1:8090/api/host/urls
 ```
 
 生命周期、端口策略和验证方式参见

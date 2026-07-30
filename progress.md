@@ -3,97 +3,67 @@
 ## 当前状态
 
 - 最后更新：2026-07-30
-- 当前任务：`phase1-002` — 为 Host 集成 PicoServer
-- 最近完成：`phase1-001` — 创建 React 前端
-- 下一个可执行任务：完成 `phase1-002` 的管理员环境运行验收
-- 产品状态：第一阶段进行中。
+- 当前任务：第一阶段 MVP 已完成。
+- 最近完成：`phase1-005` — 关闭第一阶段 MVP。
+- 下一个可执行任务：阅读 README 第二阶段，先执行项目重命名。
+- 产品状态：第一阶段已通过验收，第二阶段尚未开始。
 
-## 已完成
+## 第一阶段完成内容
 
-- 建立五子系统项目 harness，并完成结构验证。
-- 在 `main` 分支初始化 Git，并加入根级忽略规则。
-- 使用 npm、Vite、React、TypeScript 和 Oxlint 创建 `Frontend/`。
-- 加入严格 TypeScript 项目配置和 React `StrictMode`。
-- 记录前端安装、开发、lint、类型检查、构建和预览命令。
-- 在 `init.ps1` 和 `init.sh` 中加入可复现的前端依赖安装、lint 和构建检查。
-- 验证开发服务器返回 HTTP 200 并提供 React 入口。
-- 引用 PicoServer 1.7.6，并注册 ABP 单例 `PicoServerService`。
-- 在 Host 生命周期中启动/停止 PicoServer，失败时记录错误并退出。
-- 注册启用 CORS 的 `GET /api/ping`，处理程序返回 `pong`。
-- 记录 `http://+:8090/` 监听策略、客户端地址和 Windows 权限要求。
-- `Host.Desktop` 应用清单使用 `requireAdministrator`，以 UAC 提升取代手工
-  URL ACL 配置。
+- 创建 npm + Vite + React + TypeScript 前端，加入 Oxlint 和严格类型检查。
+- `build:host` 把前端生产资源与清单复制为 Avalonia 内嵌资源。
+- Host 集成 PicoServer 1.7.6，使用 `http://+:8090/`、CORS 和真实健康检查。
+- Windows Desktop 通过 `requireAdministrator` 清单请求 UAC 管理员权限。
+- Host 解包并同源托管 React 页面、`GET /api/ping` 和
+  `GET /api/host/urls`。
+- Avalonia NativeWebView 在服务就绪后导航；React 就绪消息控制加载层切换。
+- React 页面能够发送 ping、显示 pong，并列出回环和局域网访问地址。
+- 完成中文 harness、初始化脚本、开发文档和会话交接。
 
-## 进行中
+## 最终验收证据
 
-- PicoServer 代码、生命周期、ping 路由和文档已完成。
-- 等待从 Windows UAC 提示提升启动 Desktop Host 后，完成真实 HTTP、CORS
-  和退出释放端口验收。
-
-## 下一步
-
-1. 启动 Desktop Host，并在 Windows UAC 提示中允许管理员权限。
-2. 验证 `GET /api/ping` 返回 `200` 和 `pong`。
-3. 验证 CORS 响应以及 Host 退出后端口被释放。
-4. 证据完整后把 `phase1-002` 标记为 `done`，再开始 `phase1-003`。
-
-## 阻塞项与风险
-
-- 当前自动化会话不能代替用户确认 Windows UAC，因此真实 ping 冒烟测试需要
-  用户允许一次提升启动。
-- Avalonia WebView 包尚未选择；该事项属于 `phase1-003`。
-- 最近一次完整 Host 验证为 0 个错误、111 个警告，包括包兼容性、多个
-  NuGet 源、XML 文档、无效 `LIB` 搜索路径，以及 AutoMapper、Scriban、
-  SQLitePCLRaw 传递依赖的已知安全公告。
-- 当前没有自动化应用测试项目。
-- 浏览器自动化无法启动本地 daemon，因此脚手架使用 HTTP 冒烟检查，
-  没有生成浏览器截图证据。
+- `.\init.ps1`：通过。
+  - npm 安装与审计：通过，0 个漏洞。
+  - `npm run lint`：通过。
+  - `npm run build:host`：通过；包含 TypeScript 检查、Vite 生产构建和
+    3 个 Host 资源准备。
+  - Desktop Host 构建：通过，0 个错误、100 个既有警告。
+- Windows UAC 提升启动：通过；窗口标题 `AvWeb`，进程响应正常。
+- `GET /api/ping`：`200 pong`。
+- `GET /api/host/urls`：返回 `127.0.0.1` 和当前有效的局域网 IPv4 地址。
+- 静态首页、JavaScript 和 CSS：均返回 200，内容类型正确。
+- CORS：正确回显请求 Origin。
+- 浏览器自动化：页面身份正确、首屏非空、无框架错误覆盖层、控制台和页面
+  错误为空；点击“发送 ping”后显示 `pong`。
+- Avalonia WebView 截图：React 首屏、可访问 URL 和 `pong` 状态均可见。
+- Host 正常退出后 `Test-NetConnection 127.0.0.1 -Port 8090` 返回
+  `False`，端口已释放。
 
 ## 已做决策
 
-- 使用 `Frontend/` 作为 Web UI 目录。
-- 使用 npm，并提交 `package-lock.json`。
-- 使用 Vite + React + TypeScript 构建由 Host 托管的客户端 SPA。
-- 使用 Oxlint 和严格 TypeScript 项目引用作为前端静态检查。
-- 脚手架 UI 保持最小化，产品 UI 设计不属于 `phase1-001`。
-- 第一阶段单个任务完成时不提交；`phase1-001` 至 `phase1-005` 全部完成
-  且完整验证通过后，创建一个第一阶段里程碑提交。
 - React 是 Web UI，Avalonia 是原生宿主外壳，ABP/PicoServer 是服务/API 层。
-- 以 Desktop Host 项目作为基线，因为完整解决方案可能需要 Android、iOS
-  和 Browser 工作负载。
-- 除非现有 Host 警告阻塞当前任务，否则不把清理警告纳入第一阶段范围。
-- 与用户沟通以及新增或更新的项目文档、进度、交接和提交信息统一使用中文。
-- 按用户决定使用 PicoServer 原生的 `http://+:8090/` 强通配符监听，不限制
-  为 `127.0.0.1`；Windows Desktop 通过 UAC 管理员启动，部署时仍需用防火墙
-  控制访问。
+- PicoServer 使用固定端口 8090 和原生强通配符监听；Windows Desktop 通过
+  UAC 管理员启动，部署时需要防火墙限制。
+- 前端生产资源是生成物，不提交到 Git；统一由 `build:host` 重建。
+- WebView 初始保持 `about:blank`，只在真实 ping 健康检查通过后导航。
+- 第一阶段五个任务只创建一个里程碑提交，不创建中间提交。
+- 用户沟通、文档、进度、交接和提交信息统一使用中文。
 
-## 本次会话修改的文件
+## 阻塞项与风险
 
-- `Frontend/`：React + TypeScript 应用、配置、锁文件和说明。
-- `README.md`：前端位置和命令。
-- `AGENTS.md`：项目拓扑、验证命令和中文工作语言规则。
-- `feature_list.json`：第一阶段任务状态、完成条件和证据。
-- `init.ps1` / `init.sh`：前端依赖、lint、构建检查及中文提示。
-- `progress.md` / `session-handoff.md`：中文进度和恢复状态。
-- `Host/src/Host/Services/PicoServerService.cs`：PicoServer 生命周期和 ping 路由。
-- `Host/src/Host/App.axaml.cs` / `HostModule.cs`：应用生命周期和依赖注入。
-- `Host/doc/PicoServer.md`：地址、管理员权限、生命周期和验证说明。
-- `Host/src/Host.Desktop/app.manifest`：Windows UAC 管理员启动声明。
+- 第一阶段不存在未解决阻塞项。
+- Host 仍有既有警告：多个 NuGet 源、无效 `LIB` 搜索路径、XML 文档、
+  .NET Framework 兼容包，以及 AutoMapper、Scriban、SQLitePCLRaw 的安全
+  公告；未阻塞 MVP，但后续依赖治理需要处理。
+- `http://+:8090/` 会监听所有接口，局域网能否从其他设备访问仍取决于 Windows
+  防火墙和网络路由。
+- 当前只完成 Windows Desktop 的端到端运行验收；Android、iOS、Browser 不在
+  第一阶段验收范围内。
+- `harness-creator` 的结构验证器依赖英文关键词，中文 harness 得分为
+  56/100；文件结构、启动流程、完成定义、范围和交接内容实际均已存在。
 
-## 验证证据
+## 下一步
 
-- `npm run lint`：通过。
-- `npm run typecheck`：通过。
-- `npm run build`：通过；Vite 已生成 `Frontend/dist/`。
-- 开发服务器 HTTP 冒烟检查：返回 `200 text/html`，React 根节点和模块入口存在。
-- `.\init.ps1`：通过；Host 0 个错误/22 个警告，npm audit 0 个漏洞，
-  前端 lint 和生产构建通过。
-- Desktop Host 单独构建：通过；0 个错误、38 个警告。
-- 最新 `.\init.ps1`：通过；Host 0 个错误/68 个警告，npm audit 0 个漏洞，
-  前端 lint 和生产构建通过。
-- URL ACL 预检方案的历史 `.\init.ps1`：通过；正确显示 URL ACL 缺失警告，
-  Host 0 个错误/111 个警告，前端 lint 和生产构建通过。
-- URL ACL 缺失路径：通过；Host 记录明确错误并以 `-1` 退出，端口未残留。
-- Windows 管理员启动：Desktop Host 构建通过，0 个错误/36 个警告；生成的
-  `Host.Desktop.exe` 已确认包含 `requestedExecutionLevel` 和
-  `requireAdministrator`。
+1. 从干净工作树运行 `.\init.ps1` 复现第一阶段基线。
+2. 阅读 README 第二阶段的重命名和 .NET 模板需求。
+3. 创建第二阶段功能拆分后，再开始项目重命名。

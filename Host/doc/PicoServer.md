@@ -8,6 +8,7 @@ Host 使用 PicoServer 提供本地 HTTP API。
 - 客户端基址：`http://127.0.0.1:8090`
 - 端口：`8090`
 - ping 接口：`GET /api/ping`
+- 地址接口：`GET /api/host/urls`
 - 预期响应：`200 OK`，正文为 `pong`
 - 响应类型：`text/plain; charset=utf-8`
 
@@ -34,8 +35,11 @@ UAC 提示，并以管理员权限运行。管理员令牌允许 PicoServer 注�
 2. Desktop 应用退出时停止服务器。
 3. 进程退出事件提供额外的停止保障。
 4. `StartAsync()` 和 `Stop()` 都是幂等操作。
-5. UAC 被拒绝时 Windows 不启动应用；应用启动后最多等待 3 秒确认监听成功，
-   端口被占用时记录明确错误并停止初始化。
+5. Host 从 Avalonia 内嵌资源解包 React 生产文件到用户本地应用数据目录，
+   并通过 PicoServer 同源托管。
+6. UAC 被拒绝时 Windows 不启动应用；应用启动后最多等待 5 秒，通过真实
+   `GET /api/ping` 确认服务就绪，失败时在宿主加载界面显示错误。
+7. React 发出 `avweb.frontendReady` 消息后，宿主才隐藏加载层并显示 WebView。
 
 ## 验证
 
@@ -47,6 +51,7 @@ Windows 上请直接启动生成的 `Host.Desktop.exe` 并允许 UAC 提升；�
 
 ```powershell
 Invoke-WebRequest http://127.0.0.1:8090/api/ping
+Invoke-RestMethod http://127.0.0.1:8090/api/host/urls
 ```
 
 或：
@@ -56,3 +61,9 @@ curl http://127.0.0.1:8090/api/ping
 ```
 
 响应正文应为 `pong`。
+
+关闭 Host 后，以下命令应返回 `False`，证明监听端口已释放：
+
+```powershell
+Test-NetConnection 127.0.0.1 -Port 8090 -InformationLevel Quiet
+```

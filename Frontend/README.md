@@ -3,7 +3,7 @@
 AvWeb 的 React Web UI。该项目由 Avalonia Host 中的 WebView 承载，并将在
 后续功能中通过 PicoServer 调用本地 Host API。
 
-## Toolchain
+## 工具链
 
 - Node.js 22.12 或更高版本
 - npm
@@ -12,7 +12,7 @@ AvWeb 的 React Web UI。该项目由 Avalonia Host 中的 WebView 承载，并�
 - TypeScript
 - Oxlint
 
-## Commands
+## 命令
 
 在 `Frontend/` 目录运行：
 
@@ -22,13 +22,22 @@ npm run dev
 npm run lint
 npm run typecheck
 npm run build
+npm run build:host
 npm run preview
 ```
 
-生产构建输出到 `Frontend/dist/`。根目录的 `init.ps1` 和 `init.sh` 会安装
-锁定依赖并运行 lint 与生产构建。
+`npm run build:host` 会先生成 `Frontend/dist/`，再把生产资源和资源清单复制
+到 `Host/src/Host/Assets/Web/`，供 Avalonia 嵌入。该目标目录是生成目录，不
+提交到 Git。
 
-## Current Scope
+开发服务器会把 `/api` 代理到 `http://127.0.0.1:8090`。生产环境中页面和 API
+均由 PicoServer 同源提供。
 
-当前仅完成前端工程脚手架。PicoServer API、Avalonia WebView 集成和
-ping/pong 交互分别由后续 harness 功能跟踪。
+## 当前功能
+
+- 页面完成两帧渲染后向 Avalonia WebView 发送 `avweb.frontendReady`。
+- “发送 ping”调用同源 `GET /api/ping` 并显示 `pong`。
+- 页面读取 `GET /api/host/urls`，显示当前可访问的回环和局域网地址。
+
+根目录的 `init.ps1` 和 `init.sh` 会安装锁定依赖、运行 lint、执行包含
+TypeScript 检查的生产构建，并构建 Desktop Host。
