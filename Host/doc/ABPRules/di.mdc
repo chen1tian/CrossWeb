@@ -1,0 +1,13 @@
+---
+description: 生成类，接口时实现依赖注入
+globs: 
+alwaysApply: false
+---
+
+# 自动依赖注入
+
+## 提供方
+接口和类实现`ITransientDependency`或`ISingletonDependency`接口，即可完成自动依赖注入。
+
+## 调用方
+在构造函数中，将要调用的接口作为参数传入，建立对应的字段。

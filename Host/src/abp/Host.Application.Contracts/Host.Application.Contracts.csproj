@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>Host.Application.Contracts.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>Host.Application.Contracts.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json"/>
+		<PackageReference Include="Volo.Abp.Ddd.Application.Contracts"/>
+		<PackageReference Include="Volo.Abp.SettingManagement.Application.Contracts"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Host.Domain\Host.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

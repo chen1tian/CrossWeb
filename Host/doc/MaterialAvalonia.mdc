@@ -1,0 +1,613 @@
+# Material.Avalonia 控件使用指南
+
+> **命名空间声明（在 UserControl 顶部添加）**
+> ```xml
+> xmlns:material="using:Material.Styles.Controls"
+> xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+> xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+> ```
+
+---
+
+## 1. 排版 Typography
+
+`TextBlock` 通过 `Classes` 设定 Material 字体样式，无需额外引用。
+
+| Class | 大小 | 用途 |
+|---|---|---|
+| `Headline1` | 96sp Light | 超大标题 |
+| `Headline2` | 60sp Light | 大标题 |
+| `Headline3` | 48sp Regular | 页面主标题 |
+| `Headline4` | 34sp Regular | 区域标题（页面级） |
+| `Headline5` | 24sp Regular | 卡片标题 |
+| `Headline6` | 20sp Medium | 子标题 |
+| `Subtitle1` | 16sp Regular | 正文小标题 |
+| `Subtitle2` | 14sp Medium | 次级小标题 |
+| `Body1` | 16sp Regular | 正文主体 |
+| `Body2` | 14sp Regular | 正文辅助 |
+| `Caption` | 12sp Regular | 说明文字 |
+| `Overline` | 10sp Regular | 上标签 |
+| `ButtonText` | 14sp Medium | 按钮文字 |
+
+```xml
+<TextBlock Classes="Headline4 Subheadline" Text="区域标题" />
+<TextBlock Classes="Headline6" Text="卡片标题" />
+<TextBlock Classes="Body2" Text="说明文字" />
+<TextBlock Classes="Caption" Text="辅助提示" />
+```
+
+> `Subheadline` / `Subheadline2` 是额外的间距辅助类，常与 Headline4/Headline6 配合使用。
+
+---
+
+## 2. 按钮 Button
+
+### 2.1 普通按钮（默认填充样式）
+```xml
+<!-- 默认 Mid 色 -->
+<Button Content="确认" />
+
+<!-- 颜色变体 -->
+<Button Classes="light" Content="Light" />
+<Button Classes="dark" Content="Dark" />
+<Button Classes="accent" Content="强调色" />
+
+<!-- 自定义圆角 -->
+<Button Content="圆角按钮" CornerRadius="16" />
+```
+
+### 2.2 描边按钮
+```xml
+<Button Theme="{StaticResource MaterialOutlineButton}" Content="取消" />
+<Button Theme="{StaticResource MaterialOutlineButton}" Classes="accent" Content="强调" />
+```
+
+### 2.3 扁平按钮（用于工具栏/卡片内）
+```xml
+<Button Theme="{StaticResource MaterialFlatButton}" Content="操作" />
+<Button Theme="{StaticResource MaterialFlatButton}" Classes="primary" Content="主色" />
+<Button Theme="{StaticResource MaterialFlatButton}" Classes="accent" Content="强调" />
+```
+
+### 2.4 浮动按钮 FAB
+```xml
+<!-- 需引用 xmlns:material="using:Material.Styles.Controls" -->
+<material:FloatingButton Classes="Accent">
+    <material:FloatingButton.Content>
+        <Template>
+            <icons:MaterialIcon Kind="Plus" Width="24" Height="24" />
+        </Template>
+    </material:FloatingButton.Content>
+</material:FloatingButton>
+
+<!-- 扩展型（带文字） -->
+<material:FloatingButton IsExtended="True" Classes="Accent" />
+
+<!-- 尺寸：Mini（小）、默认（普通） -->
+<material:FloatingButton Classes="Accent Mini" />
+```
+
+### 2.5 下拉按钮
+```xml
+<DropDownButton Theme="{StaticResource MaterialDropDownButton}" Content="更多">
+    <DropDownButton.Flyout>
+        <MenuFlyout Placement="BottomEdgeAlignedRight">
+            <MenuItem Header="选项1" />
+            <MenuItem Header="选项2" />
+        </MenuFlyout>
+    </DropDownButton.Flyout>
+</DropDownButton>
+
+<!-- 描边样式 -->
+<DropDownButton Theme="{StaticResource MaterialOutlineDropDownButton}" Content="更多" ... />
+```
+
+### 2.6 超链接按钮
+```xml
+<HyperlinkButton Theme="{StaticResource MaterialHyperlinkButton}"
+                 Content="点击跳转"
+                 Command="{Binding OpenLinkCommand}" />
+```
+
+---
+
+## 3. 输入框 TextBox / Fields
+
+### 3.1 经典样式（默认）
+```xml
+<!-- 浮动标签 -->
+<TextBox UseFloatingPlaceholder="True"
+         assists:TextFieldAssist.Label="用户名"
+         PlaceholderText="请输入用户名" />
+
+<!-- 无浮动标签 -->
+<TextBox UseFloatingPlaceholder="False" PlaceholderText="搜索..." />
+
+<!-- 密码框（带显示按钮） -->
+<TextBox UseFloatingPlaceholder="True"
+         Classes="revealPasswordButton"
+         assists:TextFieldAssist.Label="密码"
+         PasswordChar="*" />
+
+<!-- 带清除按钮 -->
+<TextBox UseFloatingPlaceholder="True"
+         Classes="clearButton"
+         assists:TextFieldAssist.Label="搜索" />
+
+<!-- 禁用 -->
+<TextBox UseFloatingPlaceholder="True"
+         IsEnabled="False"
+         assists:TextFieldAssist.Label="只读字段"
+         Text="不可编辑" />
+
+<!-- 多行 -->
+<TextBox AcceptsReturn="True" MaxHeight="100" TextWrapping="Wrap"
+         UseFloatingPlaceholder="True"
+         assists:TextFieldAssist.Label="备注" />
+```
+
+### 3.2 填充样式 FilledTextBox
+```xml
+<TextBox Theme="{StaticResource FilledTextBox}"
+         UseFloatingPlaceholder="True"
+         Classes="filled"
+         assists:TextFieldAssist.Label="填充样式" />
+
+<!-- 紧凑版 -->
+<TextBox Theme="{StaticResource FilledTextBox}"
+         Classes="filled dense"
+         UseFloatingPlaceholder="True"
+         assists:TextFieldAssist.Label="紧凑输入框" />
+```
+
+### 3.3 描边样式 OutlineTextBox
+```xml
+<TextBox Theme="{StaticResource OutlineTextBox}"
+         UseFloatingPlaceholder="True"
+         Classes="outline"
+         assists:TextFieldAssist.Label="描边样式" />
+
+<!-- 描边+密码 -->
+<TextBox Theme="{StaticResource OutlineTextBox}"
+         Classes="outline revealPasswordButton"
+         UseFloatingPlaceholder="True"
+         assists:TextFieldAssist.Label="密码"
+         PasswordChar="*" />
+```
+
+### 3.4 Solo 样式（嵌入卡片/顶栏搜索框）
+```xml
+<material:Card Padding="0">
+    <TextBox Classes="solo" Theme="{StaticResource SoloTextBox}"
+             PlaceholderText="搜索...">
+        <TextBox.InnerRightContent>
+            <Button Classes="Flat" Padding="4" Width="{Binding $self.Bounds.Height}"
+                    Content="{icons:MaterialIconExt Search, IconSize=24}" />
+        </TextBox.InnerRightContent>
+    </TextBox>
+</material:Card>
+```
+
+### 3.5 数字输入框
+```xml
+<NumericUpDown assists:TextFieldAssist.Label="数量"
+               assists:TextFieldAssist.Hints="请输入正整数"
+               PlaceholderText="0" />
+
+<!-- 描边数字框 -->
+<NumericUpDown Theme="{StaticResource OutlineNumericUpDown}" />
+```
+
+---
+
+## 4. Card 卡片
+
+```xml
+<!-- 基础卡片 -->
+<material:Card>
+    <StackPanel Margin="0,4">
+        <TextBlock Classes="Headline6" Text="卡片标题" />
+        <TextBlock Classes="Body2" Text="副标题" />
+    </StackPanel>
+</material:Card>
+
+<!-- 固定宽度 -->
+<material:Card Width="240" VerticalAlignment="Top">
+    <StackPanel Margin="0,4">
+        <TextBlock Classes="Headline6" Text="标题" />
+        <TextBlock TextWrapping="Wrap" Text="内容文字..." />
+    </StackPanel>
+</material:Card>
+
+<!-- 带底部操作按钮 -->
+<material:Card Width="240" Padding="4">
+    <StackPanel>
+        <StackPanel Margin="8">
+            <TextBlock Classes="Headline6" Text="标题" />
+            <TextBlock TextWrapping="Wrap" Text="内容..." />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Theme="{StaticResource MaterialFlatButton}" Content="操作1" />
+            <Button Theme="{StaticResource MaterialFlatButton}" Content="操作2" />
+        </StackPanel>
+    </StackPanel>
+</material:Card>
+```
+
+---
+
+## 5. ColorZone 色彩区域
+
+常用于顶部应用栏（AppBar）。
+
+| Mode | 说明 |
+|---|---|
+| `Standard` | 默认（白/浅色） |
+| `Inverted` | 反色 |
+| `Dark` | 深色 |
+| `Light` | 浅色 |
+| `PrimaryLight` | 主色调浅色 |
+| `PrimaryMid` | 主色调中色（常用于 AppBar） |
+| `PrimaryDark` | 主色调深色 |
+| `Accent` | 强调色 |
+| `Error` | 错误色（红色） |
+
+```xml
+<!-- 顶部 AppBar -->
+<material:ColorZone Height="56" Padding="12" Mode="PrimaryMid">
+    <Grid ColumnDefinitions="Auto, 24, *, Auto">
+        <ToggleButton Grid.Column="0"
+                      Theme="{StaticResource MaterialFlatToggleButton}"
+                      Padding="4" Content="{icons:MaterialIconExt Menu}" />
+        <TextBlock Grid.Column="2" Classes="Headline6"
+                   VerticalAlignment="Center" Text="应用标题" />
+    </Grid>
+</material:ColorZone>
+
+<!-- 带搜索框的 AppBar -->
+<material:ColorZone Height="56" Padding="12" Mode="PrimaryMid">
+    <Grid ColumnDefinitions="Auto, 24, *, *, 24, Auto">
+        <ToggleButton Grid.Column="0" ... />
+        <TextBlock Grid.Column="2" Classes="Headline6" Text="标题" VerticalAlignment="Center" />
+        <Panel Grid.Column="3" VerticalAlignment="Center">
+            <material:Card Padding="0">
+                <TextBox Classes="solo" Theme="{StaticResource SoloTextBox}"
+                         PlaceholderText="搜索...">
+                    <TextBox.InnerRightContent>
+                        <Button Classes="Flat" Padding="4"
+                                Width="{Binding $self.Bounds.Height}"
+                                Content="{icons:MaterialIconExt Search, IconSize=24}" />
+                    </TextBox.InnerRightContent>
+                </TextBox>
+            </material:Card>
+        </Panel>
+    </Grid>
+</material:ColorZone>
+```
+
+---
+
+## 6. NavigationDrawer 导航抽屉
+
+```xml
+<material:NavigationDrawer Name="LeftDrawer"
+                            LeftDrawerOpened="{Binding NavDrawerSwitch, Mode=TwoWay}"
+                            LeftDrawerWidth="200">
+    <material:NavigationDrawer.LeftDrawerContent>
+        <ListBox ItemsSource="{Binding MenuItems}"
+                 SelectedItem="{Binding SelectedItem}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,4">
+                        <icons:MaterialIcon Data="{Binding Icon}" Width="22" Height="22" />
+                        <TextBlock Text="{Binding Title}" FontSize="15" VerticalAlignment="Center" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerTheme>
+                <ControlTheme TargetType="ListBoxItem"
+                              BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <Setter Property="Padding" Value="6,10" />
+                    <Setter Property="Margin" Value="8,2" />
+                    <Setter Property="CornerRadius" Value="8" />
+                </ControlTheme>
+            </ListBox.ItemContainerTheme>
+        </ListBox>
+    </material:NavigationDrawer.LeftDrawerContent>
+
+    <!-- 主内容区 -->
+    <ContentControl Content="{Binding CurrentPage}" />
+</material:NavigationDrawer>
+```
+
+---
+
+## 7. 选择控件
+
+### 7.1 ToggleSwitch
+```xml
+<ToggleSwitch Content="启用功能" />
+<ToggleSwitch Content="已启用" IsChecked="True" />
+<ToggleSwitch Content="强调色" IsChecked="True" Classes="accent" />
+<!-- 标签在左侧 -->
+<ToggleSwitch Classes="LeftHeader" Content="左侧标签" />
+```
+
+### 7.2 CheckBox
+```xml
+<CheckBox Content="普通复选框" />
+<CheckBox Content="已选中" IsChecked="True" />
+<CheckBox Content="禁用" IsEnabled="False" />
+<CheckBox Content="强调色" Classes="accent" IsChecked="True" />
+<!-- 不确定状态 -->
+<CheckBox Content="不确定" IsChecked="{x:Null}" />
+```
+
+### 7.3 RadioButton
+```xml
+<RadioButton GroupName="g1" Content="选项A" />
+<RadioButton GroupName="g1" Content="选项B" IsChecked="True" />
+<RadioButton GroupName="g1" Content="强调色" Classes="accent" />
+
+<!-- 按钮形式（放在 Card 内） -->
+<material:Card Padding="0" InsideClipping="True">
+    <material:Card.Styles>
+        <Style Selector="RadioButton">
+            <Setter Property="Theme" Value="{StaticResource MaterialButtonlikeRadioButton}" />
+        </Style>
+    </material:Card.Styles>
+    <StackPanel Orientation="Horizontal">
+        <RadioButton GroupName="align" Content="{icons:MaterialIconExt Kind=FormatAlignLeft}" />
+        <RadioButton GroupName="align" Content="{icons:MaterialIconExt Kind=FormatAlignCenter}" IsChecked="True" />
+        <RadioButton GroupName="align" Content="{icons:MaterialIconExt Kind=FormatAlignRight}" />
+    </StackPanel>
+</material:Card>
+```
+
+### 7.4 ToggleButton
+```xml
+<ToggleButton>默认</ToggleButton>
+<ToggleButton Classes="primary">主色</ToggleButton>
+<ToggleButton Classes="accent">强调色</ToggleButton>
+<ToggleButton Theme="{StaticResource MaterialOutlineToggleButton}">描边</ToggleButton>
+<ToggleButton Theme="{StaticResource MaterialFlatToggleButton}">扁平</ToggleButton>
+<!-- 图标切换按钮 -->
+<ToggleButton Theme="{StaticResource MaterialIconToggleButton}">
+    <icons:MaterialIcon Kind="Heart" />
+</ToggleButton>
+```
+
+---
+
+## 8. ComboBox 下拉选择
+
+```xml
+<!-- 默认样式 -->
+<ComboBox PlaceholderText="请选择">
+    <ComboBoxItem>选项1</ComboBoxItem>
+    <ComboBoxItem>选项2</ComboBoxItem>
+</ComboBox>
+
+<!-- 填充样式 -->
+<ComboBox Theme="{StaticResource MaterialFilledComboBox}">
+    <ComboBoxItem>选项1</ComboBoxItem>
+</ComboBox>
+
+<!-- 描边样式（带浮动标签） -->
+<ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+          assists:ComboBoxAssist.Label="选择类型">
+    <ComboBoxItem>选项1</ComboBoxItem>
+</ComboBox>
+
+<!-- 紧凑描边 -->
+<ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+          Classes="dense"
+          assists:ComboBoxAssist.Label="紧凑选择">
+    <ComboBoxItem>选项1</ComboBoxItem>
+</ComboBox>
+```
+
+---
+
+## 9. TabControl 标签页
+
+```xml
+<!-- 标准标签页 -->
+<TabControl>
+    <TabItem Header="标签1">
+        <TextBlock Text="内容1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </TabItem>
+    <TabItem Header="标签2">
+        <TextBlock Text="内容2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </TabItem>
+</TabControl>
+
+<!-- 可滚动标签页（标签过多时） -->
+<TabControl Theme="{StaticResource ScrollableTabControl}" AutoScrollToSelectedItem="True">
+    <TabItem Header="标签1"><TextBlock Text="内容1" /></TabItem>
+    <TabItem Header="标签2"><TextBlock Text="内容2" /></TabItem>
+</TabControl>
+
+<!-- 带徽章的标签页 -->
+<TabItem>
+    <TabItem.Header>
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <material:Badged BadgeContent="14">
+                <icons:MaterialIcon Kind="MessageGroup" />
+            </material:Badged>
+            <TextBlock VerticalAlignment="Center" Text="消息" />
+        </StackPanel>
+    </TabItem.Header>
+</TabItem>
+```
+
+---
+
+## 10. ProgressBar 进度条
+
+```xml
+<!-- 线性进度条 -->
+<ProgressBar Value="30" />
+<ProgressBar Value="{Binding Progress}" />
+<ProgressBar IsIndeterminate="True" />
+<ProgressBar Value="{Binding Progress}" ShowProgressText="True" />
+<ProgressBar Orientation="Vertical" Value="60" />
+
+<!-- 圆形进度条 -->
+<ProgressBar Classes="circular" Value="60" />
+<ProgressBar Classes="circular" IsIndeterminate="True" />
+<material:Card CornerRadius="24" Padding="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <ProgressBar Classes="circular" Width="80" Height="80" Value="{Binding Progress}" />
+</material:Card>
+```
+
+---
+
+## 11. Expander 折叠面板
+
+```xml
+<!-- 向下展开（默认） -->
+<Expander Header="点击展开">
+    <TextBlock TextWrapping="Wrap" Text="内容..." />
+</Expander>
+
+<!-- 向上展开 -->
+<Expander ExpandDirection="Up" Header="向上展开">
+    <TextBlock Text="内容..." />
+</Expander>
+
+<!-- 向左/右展开 -->
+<Expander ExpandDirection="Left" Header="←" />
+<Expander ExpandDirection="Right" Header="→" />
+
+<!-- 自定义 Header -->
+<Expander>
+    <Expander.Header>
+        <StackPanel Spacing="4">
+            <TextBlock Text="主标题" FontSize="16" FontWeight="Bold" />
+            <TextBlock Text="副标题说明" FontSize="13" />
+        </StackPanel>
+    </Expander.Header>
+    <TextBlock Text="展开内容..." />
+</Expander>
+```
+
+---
+
+## 12. Snackbar 临时通知
+
+```xml
+<!-- 在 AXAML 中包裹内容区域 -->
+<material:SnackbarHost HostName="MainSnackbar">
+    <!-- 页面内容 -->
+    <Grid>
+        <TextBlock Text="页面内容" />
+        <Button Click="ShowSnackbar_Click" Content="显示提示" />
+    </Grid>
+</material:SnackbarHost>
+```
+
+```csharp
+// 在 code-behind 或 ViewModel 中触发
+await SnackbarHost.Post("操作成功！", null, "MainSnackbar");
+// 带操作按钮
+await SnackbarHost.Post("文件已删除", "撤销", "MainSnackbar");
+```
+
+---
+
+## 13. DialogHost 对话框
+
+```xml
+<!-- 在页面根部包裹 -->
+<dialogHostAvalonia:DialogHost Identifier="RootDialog" DisableOpeningAnimation="True">
+    <!-- 页面内容 -->
+    <Grid>...</Grid>
+</dialogHostAvalonia:DialogHost>
+```
+
+```csharp
+// 显示自定义内容对话框
+await DialogHost.Show(new MyDialogView { DataContext = viewModel }, "RootDialog");
+
+// 关闭
+DialogHost.Close("RootDialog");
+```
+
+---
+
+## 14. Badge / Badged 徽章
+
+```xml
+<!-- 独立徽章 -->
+<material:Badge Content="1" ColorMode="Accent" />
+<material:Badge Content="999+" ColorMode="Inverted" />
+<material:Badge DisplayContent="False" />  <!-- 仅圆点 -->
+
+<!-- 附加在控件上 -->
+<material:Badged BadgeContent="5">
+    <icons:MaterialIcon Kind="Bell" Width="24" Height="24" />
+</material:Badged>
+
+<!-- 仅圆点（无数字） -->
+<material:Badged BadgeDisplayContent="False">
+    <Button Content="消息" />
+</material:Badged>
+
+<!-- 自定义颜色 -->
+<material:Badged BadgeContent="NEW!"
+                 BadgeBackground="{DynamicResource MaterialSecondaryLightBrush}"
+                 BadgeForeground="{DynamicResource MaterialSecondaryLightForegroundBrush}">
+    <Button Content="探索" />
+</material:Badged>
+
+<!-- 控制位置 -->
+<material:Badged BadgeContent="4" BadgePlacement="Right">
+    <TextBlock Text="消息" />
+</material:Badged>
+```
+
+---
+
+## 15. Material Icons 图标
+
+```xml
+<!-- 在 UserControl 中添加 -->
+xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+
+<!-- 使用图标 -->
+<icons:MaterialIcon Kind="Home" Width="24" Height="24" />
+<icons:MaterialIcon Kind="Settings" Width="20" Height="20" VerticalAlignment="Center" />
+
+<!-- 旋转动画（加载中） -->
+<icons:MaterialIcon Kind="Refresh" Width="22" Height="22" Animation="Spin" />
+
+<!-- 内联图标扩展（用于 Content） -->
+<Button Content="{icons:MaterialIconExt Kind=Plus, IconSize=24}" />
+```
+
+> 图标名称参见 `doc/material-icons.mdc` 或 https://pictogrammers.com/library/mdi/
+
+---
+
+## 16. 主题颜色 Brushes
+
+常用动态颜色资源，通过 `{DynamicResource}` 引用：
+
+| 资源名 | 说明 |
+|---|---|
+| `MaterialCardBackgroundBrush` | 卡片背景色 |
+| `MaterialBodyBrush` | 正文前景色 |
+| `MaterialBackgroundBrush` | 页面背景色 |
+| `MaterialPrimaryLightBrush` | 主色调浅色 |
+| `MaterialPrimaryMidBrush` | 主色调中色 |
+| `MaterialPrimaryDarkBrush` | 主色调深色 |
+| `MaterialSecondaryLightBrush` | 次级色调浅色 |
+| `MaterialSecondaryMidBrush` | 次级色调中色 |
+
+```xml
+<Border Background="{DynamicResource MaterialCardBackgroundBrush}" CornerRadius="8" Padding="16">
+    <TextBlock Foreground="{DynamicResource MaterialBodyBrush}" Text="内容" />
+</Border>
+```
+

@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Host.Domain</name>
+    </assembly>
+    <members>
+        <member name="T:Host.Domain.ApiResults.DontWrapResultAttribute">
+            <summary>
+            不要包装结果的特性
+            </summary>
+        </member>
+        <member name="T:Host.Domain.ApiResults.WrapResult`1">
+            <summary>
+            包装结果
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Host.Domain.ApiResults.WrapResult`1.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="P:Host.Domain.ApiResults.WrapResult`1.Success">
+            <summary>
+            是否成功
+            </summary>
+        </member>
+        <member name="P:Host.Domain.ApiResults.WrapResult`1.ErrorMessage">
+            <summary>
+            错误消息
+            </summary>
+        </member>
+        <member name="P:Host.Domain.ApiResults.WrapResult`1.Data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="P:Host.Domain.ApiResults.WrapResult`1.ErrorCode">
+            <summary>
+            消息代码
+            </summary>
+        </member>
+        <member name="M:Host.Domain.ApiResults.WrapResult`1.SetSuccess(`0,System.String,System.Int32)">
+            <summary>
+            设置成功结果
+            </summary>
+            <param name="data"></param>
+            <param name="message"></param>
+            <param name="code"></param>
+        </member>
+        <member name="M:Host.Domain.ApiResults.WrapResult`1.SetFail(System.String,System.Int32)">
+            <summary>
+            设置失败结果
+            </summary>
+            <param name="message"></param>
+            <param name="code"></param>
+        </member>
+        <member name="T:Host.Domain.ApiResults.WrapResultAttribute">
+            <summary>
+            包装结果的特性
+            </summary>
+        </member>
+        <member name="T:Host.Domain.Extensions.ObjectExtension">
+            <summary>
+            返回对象的Description标注数据
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,156 @@
+# -----------------------------------------------------------------------------
+# Operating systems
+# -----------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# -----------------------------------------------------------------------------
+# Editors and IDEs
+# -----------------------------------------------------------------------------
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.sln.iml
+*.rsuser
+*.DotSettings.user
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# Temporary editor files
+*~
+*.swp
+*.swo
+*.tmp
+*.bak
+
+# -----------------------------------------------------------------------------
+# .NET / C# / Visual Studio / Avalonia
+# -----------------------------------------------------------------------------
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Aa]rtifacts/
+[Tt]est[Rr]esults/
+[Pp]ublish/
+
+# Build and compiler output
+*.dll
+*.exe
+*.pdb
+*.cache
+*.ilk
+*.obj
+*.iobj
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.tlog
+*.tlh
+*.tli
+*.tlb
+*.tmp_proj
+*.log
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Testing and coverage
+TestResult.xml
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+coverage.*
+BenchmarkDotNet.Artifacts/
+
+# Visual Studio generated directories
+Generated_Code/
+ipch/
+opensdf/
+*.VC.db
+*.VC.VC.opendb
+*.sdf
+
+# .NET tooling
+.fake/
+.ionide/
+.paket/
+
+# -----------------------------------------------------------------------------
+# Node.js / TypeScript / React
+# -----------------------------------------------------------------------------
+node_modules/
+
+# Package-manager caches
+.npm/
+.pnpm-store/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Build output
+dist/
+build/
+out/
+.next/
+.nuxt/
+.vite/
+.parcel-cache/
+.turbo/
+.cache/
+
+# TypeScript incremental build state
+*.tsbuildinfo
+
+# Test output
+.nyc_output/
+playwright-report/
+test-results/
+blob-report/
+
+# Framework and deployment output
+.vercel/
+.netlify/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Local environment files. Keep documented examples in version control.
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Local overrides
+*.local
+
+# -----------------------------------------------------------------------------
+# Miscellaneous generated files
+# -----------------------------------------------------------------------------
+*.pid
+*.pid.lock
+*.seed
+*.tgz
+*.zip

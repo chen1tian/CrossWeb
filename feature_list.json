@@ -1,0 +1,93 @@
+{
+  "project": "AvWeb Phase 1 MVP",
+  "source": "README.md",
+  "status_values": [
+    "not-started",
+    "in-progress",
+    "blocked",
+    "done"
+  ],
+  "features": [
+    {
+      "id": "phase1-001",
+      "name": "Create React frontend",
+      "description": "Create the React application that will be served locally and rendered by the Avalonia host.",
+      "dependencies": [],
+      "status": "not-started",
+      "completion_criteria": [
+        "The frontend directory and package manifest exist.",
+        "The selected package manager and development commands are documented.",
+        "The production frontend build succeeds.",
+        "Frontend verification commands are added to init.ps1 and init.sh."
+      ],
+      "evidence": []
+    },
+    {
+      "id": "phase1-002",
+      "name": "Add PicoServer support to Host",
+      "description": "Integrate PicoServer into the Host and expose the local API surface needed by the web UI.",
+      "dependencies": [
+        "phase1-001"
+      ],
+      "status": "not-started",
+      "completion_criteria": [
+        "Host starts and stops PicoServer with the application lifecycle.",
+        "The local server address and port behavior are documented.",
+        "A backend ping endpoint or handler returns pong.",
+        "Relevant Host build or automated checks pass."
+      ],
+      "evidence": []
+    },
+    {
+      "id": "phase1-003",
+      "name": "Render React UI in Avalonia WebView",
+      "description": "Replace or adapt the native shell so that it loads the locally served React application in a WebView.",
+      "dependencies": [
+        "phase1-001",
+        "phase1-002"
+      ],
+      "status": "not-started",
+      "completion_criteria": [
+        "The Desktop Host displays the React application in a WebView.",
+        "Startup ordering prevents the WebView from loading before PicoServer is ready.",
+        "Load failures are surfaced or logged.",
+        "The Desktop Host build succeeds."
+      ],
+      "evidence": []
+    },
+    {
+      "id": "phase1-004",
+      "name": "Complete ping-pong integration",
+      "description": "Implement and verify one end-to-end request from the React UI through PicoServer to Host.",
+      "dependencies": [
+        "phase1-002",
+        "phase1-003"
+      ],
+      "status": "not-started",
+      "completion_criteria": [
+        "The React UI can send ping.",
+        "Host returns pong through PicoServer.",
+        "The React UI displays the pong response.",
+        "The interaction works inside the Avalonia WebView.",
+        "Verification evidence is recorded in progress.md."
+      ],
+      "evidence": []
+    },
+    {
+      "id": "phase1-005",
+      "name": "Close Phase 1 MVP",
+      "description": "Make the completed MVP reproducible for the next developer or agent session.",
+      "dependencies": [
+        "phase1-004"
+      ],
+      "status": "not-started",
+      "completion_criteria": [
+        "Both initialization scripts verify all available frontend and Host checks.",
+        "README.md documents setup, run, and ping-pong verification steps.",
+        "All earlier Phase 1 features contain completion evidence.",
+        "progress.md and session-handoff.md contain no unresolved MVP blocker."
+      ],
+      "evidence": []
+    }
+  ]
+}

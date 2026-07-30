@@ -1,0 +1,24 @@
+<ContentPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Host.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Host.Views.Page2View"
+             x:DataType="vm:Page2ViewModel"
+             Header="菜单2"
+             >
+  <NavigationPage.TopCommandBar>
+    <Menu Padding="0" Margin="0">
+      <MenuItem Header="操作">
+        <MenuItem Header="Action 1" />
+        <MenuItem Header="Action 2" />
+        <MenuItem Header="Action 3" />
+      </MenuItem>
+    </Menu>
+  </NavigationPage.TopCommandBar>
+  <Grid>
+    <TextBlock Text="Page2" FontSize="24"
+               HorizontalAlignment="Center" VerticalAlignment="Center" />
+  </Grid>
+</ContentPage>
