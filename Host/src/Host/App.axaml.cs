@@ -1,5 +1,6 @@
 ﻿using Host.EntityFramework;
 using Host.EntityFramework.MiddleWares;
+using Host.Services;
 using Host.ViewModels;
 using Host.Views;
 using Avalonia;
@@ -22,6 +23,7 @@ namespace Host;
 public partial class App : Avalonia.Application
 {
     private IAbpApplicationWithInternalServiceProvider? _abpApplication;
+    private PicoServerService? _picoServer;
 
     public static IServiceProvider ServiceProvider { get; private set; } = null!;
 
@@ -64,15 +66,29 @@ public partial class App : Avalonia.Application
 
             // 自动迁移数据库
             ServiceProvider.UseAutoMigration<HostDbContext>();
+
+            _picoServer = ServiceProvider.GetRequiredService<PicoServerService>();
+            await _picoServer.StartAsync();
+            AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
         }
         catch (Exception ex)
         {
             Log.Fatal(ex, "应用初始化失败");
+            Log.CloseAndFlush();
+
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime failedDesktop)
+            {
+                base.OnFrameworkInitializationCompleted();
+                failedDesktop.Shutdown(-1);
+                return;
+            }
+
             throw;
         }
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            desktop.Exit += OnDesktopExit;
             desktop.MainWindow = new MainWindow
             {
                 DataContext = new MainViewModel()
@@ -93,6 +109,22 @@ public partial class App : Avalonia.Application
             };
         }
         base.OnFrameworkInitializationCompleted();
+    }
+
+    private void OnDesktopExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
+    {
+        StopPicoServer();
+    }
+
+    private void OnProcessExit(object? sender, EventArgs e)
+    {
+        StopPicoServer();
+    }
+
+    private void StopPicoServer()
+    {
+        AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
+        _picoServer?.Stop();
     }
 
     private static string GetDatabaseDirectory()

@@ -43,6 +43,7 @@
 		<PackageReference Include="Serilog.Sinks.Async" />
 		<PackageReference Include="Serilog.Sinks.File" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+		<PackageReference Include="PicoServer" />
 	</ItemGroup>
 
 	<ItemGroup>

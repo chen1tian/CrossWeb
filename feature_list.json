@@ -1,5 +1,5 @@
 {
-  "project": "AvWeb Phase 1 MVP",
+  "project": "AvWeb 第一阶段 MVP",
   "source": "README.md",
   "status_values": [
     "not-started",
@@ -7,85 +7,117 @@
     "blocked",
     "done"
   ],
+  "milestone_gates": [
+    {
+      "id": "phase1-commit",
+      "description": "第一阶段 MVP 全部完成并验证通过后，创建一个 Git 里程碑提交。",
+      "required_features": [
+        "phase1-001",
+        "phase1-002",
+        "phase1-003",
+        "phase1-004",
+        "phase1-005"
+      ],
+      "verification": ".\\init.ps1",
+      "commit_message": "完成第一阶段 MVP",
+      "status": "pending"
+    }
+  ],
   "features": [
     {
       "id": "phase1-001",
-      "name": "Create React frontend",
-      "description": "Create the React application that will be served locally and rendered by the Avalonia host.",
+      "name": "创建 React 前端",
+      "description": "创建由本地服务托管并在 Avalonia 宿主中显示的 React 应用。",
       "dependencies": [],
-      "status": "not-started",
+      "status": "done",
       "completion_criteria": [
-        "The frontend directory and package manifest exist.",
-        "The selected package manager and development commands are documented.",
-        "The production frontend build succeeds.",
-        "Frontend verification commands are added to init.ps1 and init.sh."
+        "前端目录和 package.json 已存在。",
+        "已记录选用的包管理器和开发命令。",
+        "前端生产构建成功。",
+        "init.ps1 和 init.sh 已包含前端验证命令。"
       ],
-      "evidence": []
+      "evidence": [
+        "Frontend/package.json 已定义 dev、lint、typecheck、build 和 preview 命令。",
+        "Frontend/README.md 已记录 Node.js、npm、Vite、React、TypeScript、Oxlint、开发命令和构建输出。",
+        "npm run lint 已通过 Oxlint 检查。",
+        "npm run typecheck 已通过 TypeScript 项目引用检查。",
+        "npm run build 已使用 Vite 8.1.5 成功生成 Frontend/dist。",
+        "HTTP 冒烟检查返回 200，并提供 React 根节点和 /src/main.tsx 入口。",
+        "根目录 init.ps1 已通过 Host 构建、npm ci、前端 lint 和前端生产构建。"
+      ]
     },
     {
       "id": "phase1-002",
-      "name": "Add PicoServer support to Host",
-      "description": "Integrate PicoServer into the Host and expose the local API surface needed by the web UI.",
+      "name": "为 Host 集成 PicoServer",
+      "description": "把 PicoServer 集成到 Host，并提供 Web UI 所需的本地 API。",
       "dependencies": [
         "phase1-001"
       ],
-      "status": "not-started",
+      "status": "in-progress",
       "completion_criteria": [
-        "Host starts and stops PicoServer with the application lifecycle.",
-        "The local server address and port behavior are documented.",
-        "A backend ping endpoint or handler returns pong.",
-        "Relevant Host build or automated checks pass."
+        "Host 能够随应用生命周期启动和停止 PicoServer。",
+        "已记录本地服务地址和端口策略。",
+        "后端 ping 端点或处理程序能够返回 pong。",
+        "相关 Host 构建或自动化检查通过。"
       ],
-      "evidence": []
+      "evidence": [
+        "Host 已引用 PicoServer 1.7.6，并把 PicoServerService 注册为 ABP 单例。",
+        "Desktop Host 在数据库迁移后等待 PicoServer 启动，并在桌面退出或进程退出时停止服务。",
+        "已注册 GET /api/ping，处理程序返回 text/plain 的 pong，并启用 PicoServer CORS 中间件。",
+        "Host/doc/PicoServer.md 已记录 http://+:8090/、客户端地址、生命周期、Windows URL ACL 和验证命令。",
+        "Desktop Host 构建通过：0 个错误、38 个警告。",
+        "完整 .\\init.ps1 验证通过：Host 0 个错误、68 个警告；前端 lint 和生产构建通过。",
+        "当前非管理员环境缺少 http://+:8090/ URL ACL；已验证 Host 会记录明确错误并以 -1 退出，真实 ping 冒烟测试仍待管理员配置后执行。"
+      ]
     },
     {
       "id": "phase1-003",
-      "name": "Render React UI in Avalonia WebView",
-      "description": "Replace or adapt the native shell so that it loads the locally served React application in a WebView.",
+      "name": "在 Avalonia WebView 中显示 React UI",
+      "description": "调整原生宿主，使其在 WebView 中加载本地托管的 React 应用。",
       "dependencies": [
         "phase1-001",
         "phase1-002"
       ],
       "status": "not-started",
       "completion_criteria": [
-        "The Desktop Host displays the React application in a WebView.",
-        "Startup ordering prevents the WebView from loading before PicoServer is ready.",
-        "Load failures are surfaced or logged.",
-        "The Desktop Host build succeeds."
+        "Desktop Host 能够在 WebView 中显示 React 应用。",
+        "启动顺序能够防止 WebView 在 PicoServer 就绪前加载。",
+        "加载失败时能够显示或记录错误。",
+        "Desktop Host 构建成功。"
       ],
       "evidence": []
     },
     {
       "id": "phase1-004",
-      "name": "Complete ping-pong integration",
-      "description": "Implement and verify one end-to-end request from the React UI through PicoServer to Host.",
+      "name": "完成 ping/pong 集成",
+      "description": "实现并验证 React UI 通过 PicoServer 与 Host 完成一次端到端请求。",
       "dependencies": [
         "phase1-002",
         "phase1-003"
       ],
       "status": "not-started",
       "completion_criteria": [
-        "The React UI can send ping.",
-        "Host returns pong through PicoServer.",
-        "The React UI displays the pong response.",
-        "The interaction works inside the Avalonia WebView.",
-        "Verification evidence is recorded in progress.md."
+        "React UI 能够发送 ping。",
+        "Host 能够通过 PicoServer 返回 pong。",
+        "React UI 能够显示 pong 响应。",
+        "该交互能够在 Avalonia WebView 内运行。",
+        "验证证据已经记录到 progress.md。"
       ],
       "evidence": []
     },
     {
       "id": "phase1-005",
-      "name": "Close Phase 1 MVP",
-      "description": "Make the completed MVP reproducible for the next developer or agent session.",
+      "name": "关闭第一阶段 MVP",
+      "description": "让完成后的 MVP 能够被下一位开发者或下一次智能体会话稳定复现。",
       "dependencies": [
         "phase1-004"
       ],
       "status": "not-started",
       "completion_criteria": [
-        "Both initialization scripts verify all available frontend and Host checks.",
-        "README.md documents setup, run, and ping-pong verification steps.",
-        "All earlier Phase 1 features contain completion evidence.",
-        "progress.md and session-handoff.md contain no unresolved MVP blocker."
+        "两个初始化脚本均能验证所有可用的前端和 Host 检查。",
+        "README.md 已记录安装、运行和 ping/pong 验证步骤。",
+        "第一阶段所有先前任务均包含完成证据。",
+        "progress.md 和 session-handoff.md 中不存在未解决的 MVP 阻塞项。"
       ],
       "evidence": []
     }

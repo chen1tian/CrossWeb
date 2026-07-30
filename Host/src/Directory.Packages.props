@@ -56,5 +56,7 @@
     <PackageVersion Include="Serilog.Extensions.Logging" Version="10.0.0" />
     <PackageVersion Include="Serilog.Sinks.Async" Version="2.1.0" />
     <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
+    <!-- PicoServer -->
+    <PackageVersion Include="PicoServer" Version="1.7.6" />
   </ItemGroup>
 </Project>

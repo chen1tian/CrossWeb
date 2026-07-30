@@ -2,6 +2,7 @@
 using Host.Application.Contracts;
 using Host.Domain;
 using Host.EntityFramework;
+using Host.Services;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -32,7 +33,10 @@ namespace Host
             // 配置数据库
             services.AddAbpDbContext<HostDbContext>();
             context.Services.AddDbContext<HostDbContext>();
-            
+
+            // 配置本地 Web API 服务
+            services.AddSingleton<PicoServerService>();
+
             // 配置AutoMapper
             ConfigureAutoMap(context.Services);
         }

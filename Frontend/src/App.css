@@ -1,0 +1,21 @@
+.app-shell {
+  display: grid;
+  min-height: 100vh;
+  place-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.app-shell h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.app-shell p {
+  margin: 1rem 0 0;
+  color: #5f6b7c;
+  font-size: 1rem;
+  line-height: 1.6;
+}
