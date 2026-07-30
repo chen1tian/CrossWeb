@@ -1,6 +1,7 @@
 {
   "project": "AvWeb 第一阶段 MVP",
   "source": "README.md",
+  "archive": "docs/phases/phase1/README.md",
   "status_values": [
     "not-started",
     "in-progress",
@@ -37,13 +38,7 @@
         "init.ps1 和 init.sh 已包含前端验证命令。"
       ],
       "evidence": [
-        "Frontend/package.json 已定义 dev、lint、typecheck、build 和 preview 命令。",
-        "Frontend/README.md 已记录 Node.js、npm、Vite、React、TypeScript、Oxlint、开发命令和构建输出。",
-        "npm run lint 已通过 Oxlint 检查。",
-        "npm run typecheck 已通过 TypeScript 项目引用检查。",
-        "npm run build 已使用 Vite 8.1.5 成功生成 Frontend/dist。",
-        "HTTP 冒烟检查返回 200，并提供 React 根节点和 /src/main.tsx 入口。",
-        "根目录 init.ps1 已通过 Host 构建、npm ci、前端 lint 和前端生产构建。"
+        "详细过程与验证证据：docs/phases/phase1/verification.md"
       ]
     },
     {
@@ -61,19 +56,7 @@
         "相关 Host 构建或自动化检查通过。"
       ],
       "evidence": [
-        "Host 已引用 PicoServer 1.7.6，并把 PicoServerService 注册为 ABP 单例。",
-        "Desktop Host 在数据库迁移后等待 PicoServer 启动，并在桌面退出或进程退出时停止服务。",
-        "已注册 GET /api/ping，处理程序返回 text/plain 的 pong，并启用 PicoServer CORS 中间件。",
-        "Host/doc/PicoServer.md 已记录 http://+:8090/、客户端地址、生命周期、Windows 管理员权限和验证命令。",
-        "Host.Desktop/app.manifest 使用 requireAdministrator；Windows 启动时通过 UAC 获取 PicoServer 通配符监听所需权限。",
-        "管理员启动改动后的 Desktop Host 构建通过：0 个错误、36 个警告；生成的 Host.Desktop.exe 包含 requestedExecutionLevel 和 requireAdministrator。",
-        "Desktop Host 构建通过：0 个错误、38 个警告。",
-        "完整 .\\init.ps1 验证通过：Host 0 个错误、68 个警告；前端 lint 和生产构建通过。",
-        "加入 URL ACL 预检后的历史 .\\init.ps1 验证通过：正确显示缺失警告，Host 0 个错误、111 个警告，前端 lint 和生产构建通过。",
-        "历史非管理员启动验证：Host 会记录明确监听错误并以 -1 退出；该路径现已由 requireAdministrator 清单取代。",
-        "Windows UAC 提升启动后，GET /api/ping 返回 200 pong，CORS 正确回显 Origin。",
-        "Host 正常退出后 Test-NetConnection 127.0.0.1 -Port 8090 返回 False，端口已释放。",
-        "GET /api/host/urls 返回回环地址和当前有效的局域网 IPv4 地址。"
+        "详细过程与验证证据：docs/phases/phase1/verification.md"
       ]
     },
     {
@@ -92,13 +75,7 @@
         "Desktop Host 构建成功。"
       ],
       "evidence": [
-        "Host 引用 Avalonia.Controls.WebView 12.0.1，MainWindow 使用 NativeWebView 承载 React 页面。",
-        "Frontend 的 build:host 生成资源清单并复制生产产物，Host 启动时从 Avalonia 资源解包并由 PicoServer 静态托管。",
-        "WebFrontendUrl 初始为 about:blank；PicoServer 真实健康检查通过后才导航到 http://127.0.0.1:8090/。",
-        "React 在两次 requestAnimationFrame 后发送 avweb.frontendReady，宿主收到消息后隐藏加载层。",
-        "初始化异常会保留窗口并显示中文失败信息，同时记录 Serilog Fatal 日志。",
-        "Windows UAC 启动后的 WebView 截图确认 React 首屏和可访问 URL 正常显示。",
-        "Desktop Host 最终构建成功，0 个错误。"
+        "详细过程与验证证据：docs/phases/phase1/verification.md"
       ]
     },
     {
@@ -115,14 +92,10 @@
         "Host 能够通过 PicoServer 返回 pong。",
         "React UI 能够显示 pong 响应。",
         "该交互能够在 Avalonia WebView 内运行。",
-        "验证证据已经记录到 progress.md。"
+        "验证证据已归档到 docs/phases/phase1/verification.md。"
       ],
       "evidence": [
-        "React 页面提供“发送 ping”按钮，并使用同源 fetch('/api/ping') 请求 Host。",
-        "PicoServer 的 GET /api/ping 返回 text/plain 的 pong。",
-        "Chrome 自动化验证页面由“等待测试”切换为“pong”，控制台和页面错误为空。",
-        "Avalonia WebView 实际截图显示 Host API 状态为 pong，证明交互可在宿主内运行。",
-        "progress.md 已记录端到端运行证据。"
+        "详细过程与验证证据：docs/phases/phase1/verification.md"
       ]
     },
     {
@@ -140,11 +113,7 @@
         "progress.md 和 session-handoff.md 中不存在未解决的 MVP 阻塞项。"
       ],
       "evidence": [
-        "init.ps1 和 init.sh 均按前端依赖、lint、build:host、Desktop Host 的顺序执行完整验证。",
-        "2026-07-30 最终运行 .\\init.ps1 成功：npm audit 0 个漏洞，前端 lint、TypeScript/Vite 构建、资源准备和 Desktop Host 构建全部通过；Host 0 个错误、100 个既有警告。",
-        "README.md、Frontend/README.md 和 Host/doc/PicoServer.md 已记录构建、运行、WebView、ping/pong 和地址接口验证方式。",
-        "phase1-001 至 phase1-004 均为 done 并包含完成证据。",
-        "progress.md 和 session-handoff.md 已关闭第一阶段阻塞项并指向第二阶段。"
+        "第一阶段归档：docs/phases/phase1/README.md"
       ]
     }
   ]

@@ -62,6 +62,10 @@ Invoke-RestMethod http://127.0.0.1:8090/api/host/urls
 ## 需求
 
 ### 第一阶段
+
+状态：已完成。过程与验收资料见
+[`docs/phases/phase1/README.md`](./docs/phases/phase1/README.md)。
+
 1. 创建前端文件
 2. 修改后端Host:
    1. 增加PicoServer支持
