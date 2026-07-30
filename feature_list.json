@@ -1,5 +1,5 @@
 {
-  "project": "CrossWeb 第二阶段",
+  "project": "CrossWeb 模板维护",
   "source": "README.md",
   "plan": "docs/phases/phase2/plan.md",
   "archive": "docs/phases/phase2/README.md",
@@ -114,6 +114,22 @@
         "里程碑提交后，本地仓库外层目录已在安全时机改为 CrossWeb。"
       ],
       "archive": "docs/phases/phase2/README.md"
+    },
+    {
+      "id": "maintenance-001",
+      "name": "同步 Android 回环 HTTP 配置",
+      "description": "把 Android WebView 访问 PicoServer 回环明文 HTTP 所需的清单、网络安全配置和诊断提示写回项目模板。",
+      "dependencies": [
+        "phase2-005"
+      ],
+      "status": "in-progress",
+      "completion_criteria": [
+        "Android 清单引用仅允许 localhost 和 127.0.0.1 明文 HTTP 的 Network Security Config。",
+        "PicoServer 回环自检失败时按 Android 和其他平台给出准确提示。",
+        "CrossWebHost Android Release 构建成功。",
+        "模板生成的自定义名称实例包含并正确替换 Android 配置及 PicoServer 提示。",
+        "Android 真机能够打开由 PicoServer 提供的前端页面。"
+      ]
     }
   ]
 }

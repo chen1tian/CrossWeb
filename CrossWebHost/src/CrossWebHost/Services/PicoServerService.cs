@@ -59,9 +59,12 @@ public sealed class PicoServerService : IDisposable
             lock (_lifecycleLock)
                 _started = false;
 
+            var guidance = OperatingSystem.IsAndroid()
+                ? "请确认 Android INTERNET 权限与回环明文 HTTP 安全配置有效，"
+                    + "并且端口未被占用。"
+                : "请确认应用具有监听权限，并且端口未被占用。";
             throw new InvalidOperationException(
-                $"PicoServer 无法监听 {ListenerPrefix}。"
-                + "请确认应用已通过管理员权限启动，并且端口未被占用。"
+                $"PicoServer 无法通过 {BaseAddress}/ 完成回环自检。{guidance}"
             );
         }
 
