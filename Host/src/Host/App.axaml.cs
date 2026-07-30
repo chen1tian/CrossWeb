@@ -34,15 +34,46 @@ public partial class App : Avalonia.Application
         AvaloniaXamlLoader.Load(this);
     }
 
-    public override async void OnFrameworkInitializationCompleted()
+    public override void OnFrameworkInitializationCompleted()
     {
         Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
                 .MinimumLevel.Override("Microsoft", (Serilog.Events.LogEventLevel)LogEventLevel.Information)
                 .Enrich.FromLogContext()
-                .WriteTo.Async(c => c.File($"Logs/logs_{DateTime.Now.ToString("yyyyMMdd")}.txt"))
+                .WriteTo.Async(c => c.File($"Logs/logs_{DateTime.Now:yyyyMMdd}.txt"))
                 .CreateLogger();
 
+        var webViewModel = new WebHostViewModel();
+
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            desktop.Exit += OnDesktopExit;
+            desktop.MainWindow = new MainWindow
+            {
+                DataContext = webViewModel
+            };
+        }
+        else if (ApplicationLifetime is IActivityApplicationLifetime activityLifetime)
+        {
+            activityLifetime.MainViewFactory = () => new WebHostView
+            {
+                DataContext = webViewModel
+            };
+        }
+        else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
+        {
+            singleViewPlatform.MainView = new WebHostView
+            {
+                DataContext = webViewModel
+            };
+        }
+
+        base.OnFrameworkInitializationCompleted();
+        _ = InitializeHostAsync(webViewModel);
+    }
+
+    private async Task InitializeHostAsync(WebHostViewModel webViewModel)
+    {
         try
         {
             // 根据平台确定可写的数据库目录，并在 ABP 初始化前注入连接字符串
@@ -70,45 +101,16 @@ public partial class App : Avalonia.Application
             _picoServer = ServiceProvider.GetRequiredService<PicoServerService>();
             await _picoServer.StartAsync();
             AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+
+            await Dispatcher.UIThread.InvokeAsync(() =>
+                webViewModel.SetReady($"{PicoServerService.BaseAddress}/"));
         }
         catch (Exception ex)
         {
             Log.Fatal(ex, "应用初始化失败");
-            Log.CloseAndFlush();
-
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime failedDesktop)
-            {
-                base.OnFrameworkInitializationCompleted();
-                failedDesktop.Shutdown(-1);
-                return;
-            }
-
-            throw;
+            await Dispatcher.UIThread.InvokeAsync(() =>
+                webViewModel.SetInitializationFailed(ex.Message));
         }
-
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
-            desktop.Exit += OnDesktopExit;
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = new MainViewModel()
-            };
-        }
-        else if (ApplicationLifetime is IActivityApplicationLifetime activityLifetime)
-        {
-            activityLifetime.MainViewFactory = () => new MainView
-            {
-                DataContext = new MainViewModel()
-            };
-        }
-        else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
-        {
-            singleViewPlatform.MainView = new MainView
-            {
-                DataContext = new MainViewModel()
-            };
-        }
-        base.OnFrameworkInitializationCompleted();
     }
 
     private void OnDesktopExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
@@ -125,6 +127,7 @@ public partial class App : Avalonia.Application
     {
         AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
         _picoServer?.Stop();
+        Log.CloseAndFlush();
     }
 
     private static string GetDatabaseDirectory()

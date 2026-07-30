@@ -4,12 +4,6 @@ Set-StrictMode -Version Latest
 Write-Host '=== AvWeb harness 验证 ==='
 dotnet --version
 
-Write-Host '=== 构建 Desktop Host ==='
-dotnet build 'Host/src/Host.Desktop/Host.Desktop.csproj' --nologo
-if ($LASTEXITCODE -ne 0) {
-    throw "Desktop Host 构建失败，退出码：$LASTEXITCODE。"
-}
-
 if (-not (Test-Path -LiteralPath 'Frontend/package.json')) {
     throw '未找到 Frontend/package.json。'
 }
@@ -28,14 +22,20 @@ try {
         throw "前端 lint 失败，退出码：$LASTEXITCODE。"
     }
 
-    Write-Host '=== 构建前端 ==='
-    npm run build
+    Write-Host '=== 构建并准备 Host 前端资源 ==='
+    npm run build:host
     if ($LASTEXITCODE -ne 0) {
-        throw "前端构建失败，退出码：$LASTEXITCODE。"
+        throw "前端构建或 Host 资源准备失败，退出码：$LASTEXITCODE。"
     }
 }
 finally {
     Pop-Location
+}
+
+Write-Host '=== 构建 Desktop Host ==='
+dotnet build 'Host/src/Host.Desktop/Host.Desktop.csproj' --nologo
+if ($LASTEXITCODE -ne 0) {
+    throw "Desktop Host 构建失败，退出码：$LASTEXITCODE。"
 }
 
 Write-Host '=== 验证完成 ==='

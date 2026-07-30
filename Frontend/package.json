@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:host": "npm run build && npm run prepare:host",
     "lint": "oxlint",
+    "prepare:host": "node scripts/prepare-host-web.mjs",
     "typecheck": "tsc -b",
     "preview": "vite preview"
   },

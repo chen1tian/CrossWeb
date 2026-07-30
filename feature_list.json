@@ -64,10 +64,14 @@
         "Host 已引用 PicoServer 1.7.6，并把 PicoServerService 注册为 ABP 单例。",
         "Desktop Host 在数据库迁移后等待 PicoServer 启动，并在桌面退出或进程退出时停止服务。",
         "已注册 GET /api/ping，处理程序返回 text/plain 的 pong，并启用 PicoServer CORS 中间件。",
-        "Host/doc/PicoServer.md 已记录 http://+:8090/、客户端地址、生命周期、Windows URL ACL 和验证命令。",
+        "Host/doc/PicoServer.md 已记录 http://+:8090/、客户端地址、生命周期、Windows 管理员权限和验证命令。",
+        "Host.Desktop/app.manifest 使用 requireAdministrator；Windows 启动时通过 UAC 获取 PicoServer 通配符监听所需权限。",
+        "管理员启动改动后的 Desktop Host 构建通过：0 个错误、36 个警告；生成的 Host.Desktop.exe 包含 requestedExecutionLevel 和 requireAdministrator。",
         "Desktop Host 构建通过：0 个错误、38 个警告。",
         "完整 .\\init.ps1 验证通过：Host 0 个错误、68 个警告；前端 lint 和生产构建通过。",
-        "当前非管理员环境缺少 http://+:8090/ URL ACL；已验证 Host 会记录明确错误并以 -1 退出，真实 ping 冒烟测试仍待管理员配置后执行。"
+        "加入 URL ACL 预检后的历史 .\\init.ps1 验证通过：正确显示缺失警告，Host 0 个错误、111 个警告，前端 lint 和生产构建通过。",
+        "历史非管理员启动验证：Host 会记录明确监听错误并以 -1 退出；该路径现已由 requireAdministrator 清单取代。",
+        "真实 ping、CORS 和端口释放冒烟测试仍待在 Windows UAC 提升启动后执行。"
       ]
     },
     {

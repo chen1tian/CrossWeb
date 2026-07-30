@@ -20,27 +20,29 @@
 - 引用 PicoServer 1.7.6，并注册 ABP 单例 `PicoServerService`。
 - 在 Host 生命周期中启动/停止 PicoServer，失败时记录错误并退出。
 - 注册启用 CORS 的 `GET /api/ping`，处理程序返回 `pong`。
-- 记录 `http://+:8090/` 监听策略、客户端地址和 Windows URL ACL。
+- 记录 `http://+:8090/` 监听策略、客户端地址和 Windows 权限要求。
+- `Host.Desktop` 应用清单使用 `requireAdministrator`，以 UAC 提升取代手工
+  URL ACL 配置。
 
 ## 进行中
 
 - PicoServer 代码、生命周期、ping 路由和文档已完成。
-- 当前机器缺少 `http://+:8090/` URL ACL；等待在管理员配置后完成真实
-  HTTP、CORS 和退出释放端口验收。
+- 等待从 Windows UAC 提示提升启动 Desktop Host 后，完成真实 HTTP、CORS
+  和退出释放端口验收。
 
 ## 下一步
 
-1. 在管理员 PowerShell 中按 `Host/doc/PicoServer.md` 配置 URL ACL。
-2. 启动 Desktop Host，验证 `GET /api/ping` 返回 `200` 和 `pong`。
+1. 启动 Desktop Host，并在 Windows UAC 提示中允许管理员权限。
+2. 验证 `GET /api/ping` 返回 `200` 和 `pong`。
 3. 验证 CORS 响应以及 Host 退出后端口被释放。
 4. 证据完整后把 `phase1-002` 标记为 `done`，再开始 `phase1-003`。
 
 ## 阻塞项与风险
 
-- 当前账户不是管理员，且 `http://+:8090/` 没有 URL ACL，因此无法在本次
-  环境完成真实 ping 冒烟测试。
+- 当前自动化会话不能代替用户确认 Windows UAC，因此真实 ping 冒烟测试需要
+  用户允许一次提升启动。
 - Avalonia WebView 包尚未选择；该事项属于 `phase1-003`。
-- 最近一次完整 Host 验证为 0 个错误、68 个警告，包括包兼容性、多个
+- 最近一次完整 Host 验证为 0 个错误、111 个警告，包括包兼容性、多个
   NuGet 源、XML 文档、无效 `LIB` 搜索路径，以及 AutoMapper、Scriban、
   SQLitePCLRaw 传递依赖的已知安全公告。
 - 当前没有自动化应用测试项目。
@@ -62,7 +64,8 @@
 - 除非现有 Host 警告阻塞当前任务，否则不把清理警告纳入第一阶段范围。
 - 与用户沟通以及新增或更新的项目文档、进度、交接和提交信息统一使用中文。
 - 按用户决定使用 PicoServer 原生的 `http://+:8090/` 强通配符监听，不限制
-  为 `127.0.0.1`；部署时通过 URL ACL 和防火墙控制访问。
+  为 `127.0.0.1`；Windows Desktop 通过 UAC 管理员启动，部署时仍需用防火墙
+  控制访问。
 
 ## 本次会话修改的文件
 
@@ -74,7 +77,8 @@
 - `progress.md` / `session-handoff.md`：中文进度和恢复状态。
 - `Host/src/Host/Services/PicoServerService.cs`：PicoServer 生命周期和 ping 路由。
 - `Host/src/Host/App.axaml.cs` / `HostModule.cs`：应用生命周期和依赖注入。
-- `Host/doc/PicoServer.md`：地址、URL ACL、生命周期和验证说明。
+- `Host/doc/PicoServer.md`：地址、管理员权限、生命周期和验证说明。
+- `Host/src/Host.Desktop/app.manifest`：Windows UAC 管理员启动声明。
 
 ## 验证证据
 
@@ -87,4 +91,9 @@
 - Desktop Host 单独构建：通过；0 个错误、38 个警告。
 - 最新 `.\init.ps1`：通过；Host 0 个错误/68 个警告，npm audit 0 个漏洞，
   前端 lint 和生产构建通过。
+- URL ACL 预检方案的历史 `.\init.ps1`：通过；正确显示 URL ACL 缺失警告，
+  Host 0 个错误/111 个警告，前端 lint 和生产构建通过。
 - URL ACL 缺失路径：通过；Host 记录明确错误并以 `-1` 退出，端口未残留。
+- Windows 管理员启动：Desktop Host 构建通过，0 个错误/36 个警告；生成的
+  `Host.Desktop.exe` 已确认包含 `requestedExecutionLevel` 和
+  `requireAdministrator`。

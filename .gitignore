@@ -117,6 +117,9 @@ out/
 .turbo/
 .cache/
 
+# Generated frontend embedded into the Avalonia Host
+Host/src/Host/Assets/Web/
+
 # TypeScript incremental build state
 *.tsbuildinfo
 

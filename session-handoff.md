@@ -4,7 +4,8 @@
 
 - 目标：交付 `README.md` 中描述的第一阶段 MVP。
 - 当前任务：`phase1-002` — 为 Host 集成 PicoServer。
-- 当前状态：实现和构建已完成；等待管理员配置 URL ACL 后完成运行验收。
+- 当前状态：实现和构建已完成；Desktop 已声明 UAC 管理员启动，等待提升后
+  完成运行验收。
 - 分支/提交：`main`；最近提交为初始化提交，第一阶段修改尚未提交。
 
 ## 本次会话已完成
@@ -18,7 +19,9 @@
 - 在两个根级初始化脚本中加入前端检查。
 - 把 harness 的人类可读内容翻译为中文，并加入中文工作语言规则。
 - 集成 PicoServer 1.7.6、应用生命周期、CORS 和 `GET /api/ping`。
-- 按用户决定使用原生 `http://+:8090/` 监听，并记录 Windows URL ACL。
+- 按用户决定使用原生 `http://+:8090/` 监听。
+- `Host.Desktop` 应用清单声明 `requireAdministrator`，用 UAC 提升取代手工
+  URL ACL 配置。
 
 ## 验证证据
 
@@ -32,7 +35,9 @@
 | 完整基线 | `.\init.ps1` | 通过 | Host 0 个错误/22 个警告；前端安装、lint 和构建通过 |
 | Desktop Host 构建 | `dotnet build Host/src/Host.Desktop/Host.Desktop.csproj --no-restore` | 通过 | 0 个错误、38 个警告 |
 | 最新完整验证 | `.\init.ps1` | 通过 | Host 0 个错误/68 个警告；前端 lint 和构建通过 |
+| URL ACL 预检后的完整验证 | `.\init.ps1` | 通过 | 正确显示缺失警告；Host 0 个错误/111 个警告；前端通过 |
 | URL ACL 缺失路径 | 启动 `Host.Desktop.exe` | 通过 | 明确记录监听失败并以 -1 退出 |
+| Windows 管理员启动 | Desktop 构建及 EXE 字符串检查 | 通过 | 0 个错误/36 个警告；产物包含 requireAdministrator |
 
 ## 修改的文件
 
@@ -64,8 +69,8 @@
 - 浏览器自动化 daemon 启动失败，因此脚手架只能完成 HTTP 冒烟验证。
 - `harness-creator` 的原始结构验证器依赖英文标题和关键词，中文内容可能被
   低估；应结合文件结构和实际验证结果判断。
-- 当前非管理员账户没有 `http://+:8090/` URL ACL，尚未完成真实 ping/CORS/
-  退出释放端口验收。
+- 当前自动化会话不能代替用户确认 Windows UAC，尚未完成提升启动后的真实
+  ping/CORS/退出释放端口验收。
 - Host 恢复会报告 AutoMapper、Scriban 和 SQLitePCLRaw 传递依赖的已知
   安全公告；本任务未升级这些既有依赖。
 
@@ -78,6 +83,5 @@
 
 ## 建议的下一步
 
-- 按 `Host/doc/PicoServer.md` 在管理员 PowerShell 配置 URL ACL，然后完成
-  `phase1-002` 的 ping、CORS 和端口释放验收；通过后标记为 `done`，再开始
-  `phase1-003`。
+- 启动 Desktop Host 并允许 Windows UAC 提升，然后完成 `phase1-002` 的
+  ping、CORS 和端口释放验收；通过后标记为 `done`，再开始 `phase1-003`。

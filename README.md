@@ -40,7 +40,6 @@ GET http://127.0.0.1:8090/api/ping
 ## 需求
 
 ### 第一阶段
-
 1. 创建前端文件
 2. 修改后端Host:
    1. 增加PicoServer支持
@@ -50,3 +49,9 @@ GET http://127.0.0.1:8090/api/ping
    2. 后端Host可以通过WebView显示前端网页
    3. 一次请求交互：ping，pong，前端发送ping请求，后端返回pong响应
 
+### 第二阶段
+1. 修改名称：修改根目录名称为：CrossWeb，修改后端为 CrossWebHost，前端为 CrossWebFrontend。
+2. 将此项目转换为.net模板，方便以此为基础创建新的跨平台Web融合项目。   
+参考：
+   - https://learn.microsoft.com/en-us/dotnet/core/tools/custom-templates
+   - https://learn.microsoft.com/en-us/dotnet/core/tutorials/cli-templates-create-project-template
