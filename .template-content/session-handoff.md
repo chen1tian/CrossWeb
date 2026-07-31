@@ -2,7 +2,7 @@
 
 ## 当前目标
 
-完成 `bootstrap-001`，建立模板生成项目的可复现基线。
+当前没有进行中任务。
 
 - 当前阻塞项：无
 - 产品说明：[README.md](README.md)
@@ -12,5 +12,5 @@
 
 1. 阅读 `README.md`、`AGENTS.md`、`feature_list.json` 和 `progress.md`。
 2. Windows 运行 `.\init.ps1`，POSIX shell 运行 `./init.sh`。
-3. 只处理 `bootstrap-001`；验证通过前不要将其标记为 `done`。
+3. 根据产品需求建立任务，并保持最多一个任务为 `in-progress`。
 4. 修改 `CrossWebHost/` 前阅读 `CrossWebHost/AGENTS.md`。

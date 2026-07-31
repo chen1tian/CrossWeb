@@ -8,20 +8,5 @@
     "done"
   ],
   "milestone_gates": [],
-  "features": [
-    {
-      "id": "bootstrap-001",
-      "name": "验证生成项目基线",
-      "description": "确认模板生成的项目能够构建并完成最小端到端运行验收。",
-      "dependencies": [],
-      "status": "not-started",
-      "completion_criteria": [
-        ".\\init.ps1 或 ./init.sh 运行成功。",
-        "Desktop Host 能够启动并显示 React 页面。",
-        "页面显示可访问 URL，发送 ping 后显示 pong。",
-        "验证结果已记录到 progress.md。"
-      ],
-      "evidence": []
-    }
-  ]
+  "features": []
 }

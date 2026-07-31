@@ -47,4 +47,4 @@ URL；点击“发送 ping”后应显示 `pong`。
   [`CrossWebHost/doc/PicoServer.md`](CrossWebHost/doc/PicoServer.md)
 
 开始修改前先阅读根目录 `AGENTS.md`，运行初始化脚本，并在
-`feature_list.json` 中只选择一个依赖已完成的任务。
+`feature_list.json` 中建立任务；同一时间只选择一个依赖已完成的任务。
