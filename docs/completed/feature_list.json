@@ -1,0 +1,78 @@
+{
+  "project": "CrossWeb",
+  "description": "已完成特性索引；活动任务见仓库根目录 feature_list.json。",
+  "features": [
+    {
+      "id": "phase1-001",
+      "name": "创建 React 前端",
+      "status": "done",
+      "archive": "docs/phases/phase1/README.md"
+    },
+    {
+      "id": "phase1-002",
+      "name": "为 Host 集成 PicoServer",
+      "status": "done",
+      "archive": "docs/phases/phase1/README.md"
+    },
+    {
+      "id": "phase1-003",
+      "name": "在 Avalonia WebView 中显示 React UI",
+      "status": "done",
+      "archive": "docs/phases/phase1/README.md"
+    },
+    {
+      "id": "phase1-004",
+      "name": "完成 ping/pong 集成",
+      "status": "done",
+      "archive": "docs/phases/phase1/README.md"
+    },
+    {
+      "id": "phase1-005",
+      "name": "关闭第一阶段 MVP",
+      "status": "done",
+      "archive": "docs/phases/phase1/README.md"
+    },
+    {
+      "id": "phase2-001",
+      "name": "完成 CrossWeb 原型重命名",
+      "status": "done",
+      "archive": "docs/phases/phase2/README.md"
+    },
+    {
+      "id": "phase2-002",
+      "name": "建立 .NET 项目模板",
+      "status": "done",
+      "archive": "docs/phases/phase2/README.md"
+    },
+    {
+      "id": "phase2-003",
+      "name": "验证模板生成实例",
+      "status": "done",
+      "archive": "docs/phases/phase2/README.md"
+    },
+    {
+      "id": "phase2-004",
+      "name": "提供模板包和使用文档",
+      "status": "done",
+      "archive": "docs/phases/phase2/README.md"
+    },
+    {
+      "id": "phase2-005",
+      "name": "关闭第二阶段",
+      "status": "done",
+      "archive": "docs/phases/phase2/README.md"
+    },
+    {
+      "id": "maintenance-001",
+      "name": "同步 Android 回环 HTTP 配置",
+      "status": "done",
+      "archive": "docs/completed/maintenance-001.md"
+    },
+    {
+      "id": "maintenance-002",
+      "name": "建立已完成任务归档机制",
+      "status": "done",
+      "archive": "docs/completed/maintenance-002.md"
+    }
+  ]
+}

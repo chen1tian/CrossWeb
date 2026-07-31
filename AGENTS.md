@@ -6,8 +6,10 @@
 - Avalonia 宿主外壳：通过 WebView 加载 Web UI。
 - PicoServer/ABP 服务：向 Web UI 提供本地 API。
 
-`README.md` 是产品范围的权威来源。修改 `CrossWebHost/` 下的内容时，还必须遵守
-`CrossWebHost/AGENTS.md` 中的文件放置和框架规则。
+`README.md` 是产品范围的权威来源。根目录 `feature_list.json` 只保存未完成
+任务；已完成任务入口和特性索引分别位于 `docs/completed/README.md` 和
+`docs/completed/feature_list.json`。修改 `CrossWebHost/` 下的内容时，还必须
+遵守 `CrossWebHost/AGENTS.md` 中的文件放置和框架规则。
 
 ## 工作语言
 
@@ -24,7 +26,8 @@
 1. 确认当前工作目录是仓库根目录。
 2. 阅读 `README.md`、本文件、`feature_list.json` 和 `progress.md`。
 3. 接续之前的工作时，阅读 `session-handoff.md`。
-4. 只有需要追溯已结束阶段时，才沿状态文件中的路径阅读 `docs/phases/` 归档。
+4. 只有需要确认已完成依赖或追溯历史时，才阅读
+   `docs/completed/feature_list.json`，并沿其中引用进入任务或阶段归档。
 5. 修改 `CrossWebHost/` 前，阅读 `CrossWebHost/AGENTS.md` 及其中链接的相关文档。
 6. Windows 运行 `.\init.ps1`，POSIX shell 运行 `./init.sh`。
 7. 只选择一个依赖已经完成的未完成任务。
@@ -41,6 +44,8 @@
 - 破坏性操作、依赖替换和架构变更必须获得用户明确授权。
 - 没有记录验证证据时，不得把任务标记为 `done`。
 - 会话结束前更新 `progress.md` 和 `feature_list.json`。
+- 已完成任务不得长期保留在活动状态文件中；完成后必须按“任务完成清理”流程
+  归档并移除。
 
 ## 范围边界
 
@@ -51,13 +56,17 @@
 
 ## 必需状态文件
 
-- `feature_list.json`：当前任务依赖、状态、完成条件和归档引用。
+- `feature_list.json`：仅保存 `not-started`、`in-progress` 或 `blocked` 的活动
+  任务、依赖和完成条件。
 - `progress.md`：当前阶段、当前任务、阻塞项和下一步。
-- `session-handoff.md`：恢复步骤、当前目标和归档入口。
+- `session-handoff.md`：恢复步骤、当前目标和阻塞项。
 - `init.ps1` / `init.sh`：统一的基线验证入口。
+- `docs/completed/feature_list.json`：已完成特性的机器可读索引与归档引用。
+- `docs/completed/README.md`：已完成任务和阶段的人工导航入口。
 
 允许的任务状态为 `not-started`、`in-progress`、`blocked` 和 `done`。
-最多只能有一个任务处于 `in-progress`。
+最多只能有一个任务处于 `in-progress`。`done` 只允许作为完成清理过程中的
+短暂状态；清理结束后不得留在根目录 `feature_list.json`。
 
 ## 完成定义
 
@@ -93,17 +102,31 @@ npm --prefix CrossWebFrontend run lint
 npm --prefix CrossWebFrontend run build:host
 ```
 
+## 任务完成清理
+
+任务满足完成定义后，在同一会话内执行：
+
+1. 将过程、验证证据、关键决策和遗留风险写入
+   `docs/completed/<task-id>.md`；属于阶段的任务可写入
+   `docs/phases/<phase-id>/`。
+2. 在 `docs/completed/feature_list.json` 中登记任务 ID、名称、`done` 状态和
+   唯一归档路径，并在 `docs/completed/README.md` 补充必要导航。
+3. 从根目录 `feature_list.json` 删除已完成任务和已完成里程碑；后续任务可以
+   依赖归档索引中存在的任务 ID。
+4. 从 `progress.md` 和 `session-handoff.md` 删除已完成任务的过程、证据和
+   “最近完成”摘要，只保留当前状态、阻塞项和准确下一步。
+5. 检查活动状态文件中不再包含 `done` 条目或重复历史，再结束会话。
+
 ## 阶段归档规则
 
 - 阶段完成并通过验收后，将实现过程、验证证据、关键决策和遗留风险归档到
   `docs/phases/<phase-id>/`。
 - 每个阶段必须提供 `docs/phases/<phase-id>/README.md` 作为单一归档入口；
   `docs/README.md` 维护阶段索引。
-- `feature_list.json` 中已完成任务只保留状态、完成条件和归档路径，不重复保存
-  长篇证据。
-- `progress.md` 只保留当前阶段、当前任务、当前阻塞项、下一步和已完成阶段的
-  归档链接。
-- `session-handoff.md` 只保留恢复步骤、当前目标、当前阻塞项和归档链接。
+- 根目录 `feature_list.json` 不保留已完成任务；完成状态和归档路径统一写入
+  `docs/completed/feature_list.json`。
+- `progress.md` 只保留当前阶段、当前任务、当前阻塞项和下一步。
+- `session-handoff.md` 只保留恢复步骤、当前目标和当前阻塞项。
 - 同一段阶段历史不得复制到多个进行中文件；历史内容只在对应归档中维护。
 - 阶段进行期间允许在状态文件中临时记录必要信息，关闭阶段时必须完成归档和
   精简。
@@ -111,10 +134,10 @@ npm --prefix CrossWebFrontend run build:host
 ## 会话结束流程
 
 1. 重新运行当前任务相关的验证。
-2. 更新 `feature_list.json` 中的任务状态和必要证据。
-3. 在 `progress.md` 中记录当前状态、阻塞项和准确的下一步。
+2. 更新活动任务状态；任务完成时立即执行“任务完成清理”。
+3. 在 `progress.md` 中记录当前状态、阻塞项和准确的下一步，不保留完成历史。
 4. 对于中断或跨会话工作，更新 `session-handoff.md`。
-5. 阶段全部任务为 `done` 且验收通过后，按阶段归档规则整理过程信息。
+5. 阶段全部任务完成且验收通过后，按阶段归档规则整理过程信息。
 6. 创建阶段里程碑提交前，确认归档和进行中文件均与实际状态一致。
 7. 未达到提交条件时，保持工作树状态清晰并汇报未提交修改。
 

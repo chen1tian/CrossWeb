@@ -1,6 +1,7 @@
 {
   "project": "CrossWeb",
   "source": "README.md",
+  "completed_features": "docs/completed/feature_list.json",
   "status_values": [
     "not-started",
     "in-progress",
