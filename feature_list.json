@@ -9,5 +9,17 @@
     "done"
   ],
   "milestone_gates": [],
-  "features": []
+  "features": [
+    {
+      "id": "maintenance-003",
+      "name": "根据当前实现重写根 README",
+      "status": "blocked",
+      "dependencies": ["phase2-005", "maintenance-002"],
+      "acceptance_criteria": [
+        "README 准确描述项目定位、三层职责、当前能力和平台验证边界",
+        "运行、开发、模板命令及文档链接与当前源码一致",
+        "完成文档检查与统一基线验证，并记录结果"
+      ]
+    }
+  ]
 }
